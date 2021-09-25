@@ -1,0 +1,19 @@
+{
+  "name": "dungeon",
+  "version": "1.0.0",
+  "description": "a sample node app for new typescript develoeprs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wyers/dungeon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wyers/dungeon/issues"
+  },
+  "homepage": "https://github.com/wyers/dungeon#readme"
+}
