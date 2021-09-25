@@ -2,9 +2,9 @@
   "name": "dungeon",
   "version": "1.0.0",
   "description": "a sample node app for new typescript develoeprs",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node index.ts"
   },
   "dependencies": {
     "nodemon": "^2.0.7",
