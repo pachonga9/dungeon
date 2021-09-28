@@ -47,10 +47,11 @@ console.log('Welcome to DUNGEON CRAWLER. Created by David Wyers.');
             //end loop
         };
 }
-
+let monsterIsAlive = true;
 const room1 = () => {
-
-    let monsterIsAlive:boolean = true;
+    const killMonster = () => {
+        monsterIsAlive = !monsterIsAlive;
+    }
     if(monsterIsAlive){
         console.log('You are in dungeon room 1. A monster blocks your path.');
     } else {
@@ -71,7 +72,7 @@ const room1 = () => {
             if(monsterIsAlive){
                 console.log(`You kill the monster. It crumples in a mass of stringy sinew and viscous blood.`);
                 //do some monster is dead logic
-                monsterIsAlive = !monsterIsAlive;
+                killMonster();
                 console.log(room1());
             } else {
                 console.log(`The monster is already dead. You wrestle with your inner demons.`);
@@ -98,3 +99,4 @@ const room1 = () => {
 gameStart();
 }
 }
+//mine
