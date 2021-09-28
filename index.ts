@@ -1,6 +1,4 @@
-import promptSync from "prompt-sync";
+import {App} from "./src/app";
 
-console.log('welcome to the dungeon');
-const name = promptSync()('What is your name? ');
-console.log(`Hey there ${name}`);
-
+const app = new App();
+app.run();
