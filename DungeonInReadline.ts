@@ -6,22 +6,33 @@ const rl = readline.createInterface({input: stdin, output: stdout});
 const user = {
     location: 0,
     choices: ['1. Kick down the door', '2. Fight Monsters', '3. Run Away', '4. Exit Game'],
-    monsterBlock: true,
+    monsterBlock: false,
 };
+const spawnMonster = () => {
+    // user.monsterBlock = !user.monsterBlock;
+    user.monsterBlock = true;
+    console.log(`DevComment: the monsterBlock is set to ${user.monsterBlock}`);
+}
 
 const killMonster = () => {
     user.monsterBlock = !user.monsterBlock;
+    console.log(`DevComment: the monsterBlock is set to ${user.monsterBlock}`);
 }
 
 function fightMonster() {
-    killMonster();
-    console.clear();
-    console.log('There is no monster here to fight.');
-    getInput();
-}
+    if(user.monsterBlock){
+        console.clear();
+        console.log(`You kill the monster. It crumples to the ground.`);
+        killMonster();
+        getInput();
+    } else {
+        console.clear();
+        console.log(`There is no monster here to fight.`);
+        getInput();
+    }
+};
 
 function kickDoor() {
-    killMonster();
     if(user.monsterBlock){
         console.clear();
         console.log(`You can't move forward while a monster blocks your path.`);
@@ -30,6 +41,7 @@ function kickDoor() {
         console.clear();
         console.log('You kick down the door. A monster blocks your path.');
         user.location++;
+        spawnMonster();
         getInput();
     }
 };
