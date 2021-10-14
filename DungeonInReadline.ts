@@ -7,16 +7,29 @@ const user = {
     location: 0,
     choices: ['1. Kick down the door', '2. Fight Monsters', '3. Run Away', '4. Exit Game'],
     monsterBlock: false,
+    gold: 0,
 };
 const spawnMonster = () => {
     // user.monsterBlock = !user.monsterBlock;
     user.monsterBlock = true;
-    console.log(`DevComment: the monsterBlock is set to ${user.monsterBlock}`);
+    // console.log(`DevComment: the monsterBlock is set to ${user.monsterBlock}`);
 }
+
+const getRandomInt = () => {
+    return Math.floor(Math.random() * 10);
+};
+
+const collectGold = () => {
+    let x = getRandomInt();
+    user.gold = user.gold + x;
+    console.log(`You pick up ${x} gold from the monster's corpse.`);
+};
 
 const killMonster = () => {
     user.monsterBlock = !user.monsterBlock;
-    console.log(`DevComment: the monsterBlock is set to ${user.monsterBlock}`);
+    // console.log(`DevComment: the monsterBlock is set to ${user.monsterBlock}`);
+    collectGold();
+    console.log(`You now have ${user.gold} gold.`);
 }
 
 function fightMonster() {
