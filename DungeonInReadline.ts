@@ -57,7 +57,8 @@ function kickDoor() {
         console.clear();
         console.log('You kick down the door. A monster blocks your path.');
         user.location++;
-        user.farthestRoom++;
+        logFarthestRoom();
+        console.log(`the farthest room you have travelled is ${user.farthestRoom} floors.`);
         spawnMonster();
         getInput();
     }
@@ -118,9 +119,17 @@ function isLocationFive() {
 function getLocation() {
     isLocationFive();
     if (user.location === 0) {
-        return `You are outside the dungeon. You have ${user.gold} gold. You have travelled ${user.farthestRoom} floors.`;
+        return `You are outside the dungeon. You have ${user.gold} gold. The farthest you have gone is room ${user.farthestRoom}.`;
     }
     return `You are in dungeon room #${user.location}`;
+};
+
+function logFarthestRoom() {
+    console.log('logging farthest room.')
+    if(user.farthestRoom <= user.location){
+        user.farthestRoom++;
+        console.log(`DEV COMMENT: I COUNTED + 1 FLOOR FOR A TOTAL OF ${user.farthestRoom} FLOORS!`);
+    };
 };
 
 const getInput = () => {
