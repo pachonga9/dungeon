@@ -125,10 +125,14 @@ function getLocation() {
 };
 
 function logFarthestRoom() {
-    console.log('logging farthest room.')
-    if(user.farthestRoom <= user.location){
-        user.farthestRoom++;
-        console.log(`DEV COMMENT: I COUNTED + 1 FLOOR FOR A TOTAL OF ${user.farthestRoom} FLOORS!`);
+    console.log('DEV COMMENT: CHECKING FURTHEST ROOM!')
+    if(user.farthestRoom = user.location){
+        console.log(`DEV COMMENT: DID NOT COUNT ROOM!`);
+    }   else if(user.farthestRoom < user.location){
+            user.farthestRoom++;
+            console.log(`DEV COMMENT: I COUNTED +1 ROOM FOR A TOTAL OF ${user.farthestRoom} ROOM(s)!`);
+    }   else if(user.farthestRoom > user.location){
+            console.log(`DEV COMMENT: DID NOT COUNT ROOM!`);
     };
 };
 
