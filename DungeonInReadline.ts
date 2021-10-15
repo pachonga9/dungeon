@@ -8,13 +8,14 @@ const user = {
     choices: ['1. Kick down the door', '2. Fight Monsters', '3. Run Away', '4. Exit Game'],
     monsterBlock: false,
     gold: 0,
+    farthestRoom: 0,
 };
 
 const spawnMonster = () => {
     // user.monsterBlock = !user.monsterBlock;
     user.monsterBlock = true;
     // console.log(`DevComment: the monsterBlock is set to ${user.monsterBlock}`);
-}
+};
 
 const getRandomInt = () => {
     return Math.floor(Math.random() * 10);
@@ -27,11 +28,12 @@ const collectGold = () => {
 };
 
 const killMonster = () => {
-    user.monsterBlock = !user.monsterBlock;
+    // user.monsterBlock = !user.monsterBlock;
+    user.monsterBlock = false;
     // console.log(`DevComment: the monsterBlock is set to ${user.monsterBlock}`);
     collectGold();
     console.log(`You now have ${user.gold} gold.`);
-}
+};
 
 function fightMonster() {
     if(user.monsterBlock){
@@ -55,6 +57,7 @@ function kickDoor() {
         console.clear();
         console.log('You kick down the door. A monster blocks your path.');
         user.location++;
+        user.farthestRoom++;
         spawnMonster();
         getInput();
     }
@@ -101,7 +104,8 @@ function handleAnswer(answer: string) {
         default:
             getInput();
     }
-}
+};
+
 function isLocationFive() {
     if (user.location >= 5) {
         user.choices.splice(2, 1, '3. Return to Camp');
@@ -109,16 +113,15 @@ function isLocationFive() {
         user.choices.splice(2, 1, '3. Run Away');
         /// This seems kinda weird if I don't add the Run Away option again...
     }
-}
+};
 
 function getLocation() {
     isLocationFive();
     if (user.location === 0) {
-        return `You are outside the dungeon. You have ${user.gold} gold.`;
+        return `You are outside the dungeon. You have ${user.gold} gold. You have travelled ${user.farthestRoom} floors.`;
     }
     return `You are in dungeon room #${user.location}`;
-}
-
+};
 
 const getInput = () => {
     const location = getLocation();
