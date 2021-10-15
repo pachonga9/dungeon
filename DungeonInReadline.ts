@@ -9,6 +9,7 @@ const user = {
     monsterBlock: false,
     gold: 0,
 };
+
 const spawnMonster = () => {
     // user.monsterBlock = !user.monsterBlock;
     user.monsterBlock = true;
@@ -60,16 +61,28 @@ function kickDoor() {
 };
 
 function runAway() {
+    if (user.location < 5){
     console.clear();
-    rl.question('Are you sure you want to flee? (y/n) ', function (answer) {
-        if (answer === 'y') {
-            console.log(`Your father was right about you. You aren't cut out for adventure.`);
-            user.location = 0;
-        }
+        rl.question('Are you sure you want to flee? (y/n) ', function (answer) {
+            if (answer === 'y') {
+                console.log(`Your father was right about you. You aren't cut out for adventure.`);
+                user.location = 0;
+            }
+            console.clear();
+            getInput();
+        });
+    } else if (user.location >= 5){
         console.clear();
-        getInput();
-    });
-}
+        rl.question('Are you sure you would like to return to camp to rest? (y/n) ', function (answer) {
+            if (answer === 'y') {
+                console.log('You head back to camp.');
+                user.location = 0;
+            }
+            console.clear();
+            getInput();
+        });
+    }
+};
 
 function handleAnswer(answer: string) {
     switch (answer) {
@@ -89,13 +102,23 @@ function handleAnswer(answer: string) {
             getInput();
     }
 }
+function isLocationFive() {
+    if (user.location >= 5) {
+        user.choices.splice(2, 1, '3. Return to Camp');
+    } else if (user.location < 5) {
+        user.choices.splice(2, 1, '3. Run Away');
+        /// This seems kinda weird if I don't add the Run Away option again...
+    }
+}
 
 function getLocation() {
+    isLocationFive();
     if (user.location === 0) {
-        return 'You are outside the dungeon.';
+        return `You are outside the dungeon. You have ${user.gold} gold.`;
     }
     return `You are in dungeon room #${user.location}`;
 }
+
 
 const getInput = () => {
     const location = getLocation();
