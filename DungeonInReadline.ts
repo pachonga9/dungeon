@@ -14,6 +14,7 @@ const user = {
 const spawnMonster = () => {
     // user.monsterBlock = !user.monsterBlock;
     user.monsterBlock = true;
+    console.log('A MONSTER SPAWNED IN FRONT OF YOU AND BLOCKS YOUR PATH!')
     // console.log('A monster just spawned.');
     // console.log(`DevComment: the monsterBlock is set to ${user.monsterBlock}`);
 };
@@ -25,42 +26,55 @@ const getRandomInt = () => {
 const collectGold = () => {
     let x = getRandomInt();
     user.gold = user.gold + x;
-    console.log(`You pick up ${x} gold from the monster's corpse.`);
+    if(x === 0){
+        console.log(`you search the monster's filfthy corpse, but find nothing of value.`);
+    } else {
+        console.log(`You search the monster's filfthy corpse and find ${x} gold.`);
+    }
 };
 
 const killMonster = () => {
     // user.monsterBlock = !user.monsterBlock;
     user.monsterBlock = false;
     // console.log(`DevComment: the monsterBlock is set to ${user.monsterBlock}`);
+    console.log('YOUR SWORD CONNECTS! The monster lets out an agonized scream and crumples to the ground, dead. The way forward is clear.');
     collectGold();
-    console.log(`You now have ${user.gold} gold.`);
+    console.log(`You have ${user.gold} gold.`);
 };
 
 function fightMonster() {
-    if(user.monsterBlock){
+    if(user.monsterBlock){ // THIS IS TRUE
         console.clear();
-        console.log(`You kill the monster. It crumples to the ground.`);
+        console.log(`You swing your sword at the monster.`);
         killMonster();
         getInput();
     } else {
         console.clear();
-        console.log(`There is no monster here to fight.`);
+        console.log(`There is no monster here to fight. You wrestle with your inner demons.`);
         getInput();
     }
 };
 
 function kickDoor() {
-    if(user.monsterBlock){
+    if(user.monsterBlock){ // THIS IS TRUE
         console.clear();
-        console.log(`You can't move forward while a monster blocks your path.`);
+        console.log(`You can't move forward while the monster blocks your path.`);
         getInput();
-    } else {
+    } else if(user.location >= user.farthestRoom){ // if the current location greater than or equal to the farthest room...
         console.clear();
-        console.log('You kick down the door. A monster blocks your path.');
+        console.log('You kick down the sturdy door in front of you. YOU MOVE UP ONE ROOM!');
         user.location++;
         logFarthestRoom();
-        console.log(`the farthest room you have travelled is ${user.farthestRoom} room(s).`);
-        spawnMonster();
+        console.log(`the farthest room you have travelled is to room ${user.farthestRoom}.`);
+        // spawnMonster();
+        getInput();
+    } else if(user.location <= user.farthestRoom ){ // if the current location is less than or equal to fathest room...
+        console.clear();
+        console.log('You have already kicked down this door. You move deeper into the dungeon.');
+        console.log(`A rotting corpse of a monster lay dead on the floor.`);
+        user.location++;
+        logFarthestRoom();
+        console.log(`The farthest room you have travelled is to room ${user.farthestRoom}.`);
         getInput();
     }
 };
@@ -119,22 +133,21 @@ function isLocationFive() {
 
 function getLocation() {
     isLocationFive();
-    if (user.location === 0) {
+    if (user.location === 0) { ///try changing this to just =
         return `You are outside the dungeon. You have ${user.gold} gold. The farthest you have gone is room ${user.farthestRoom}.`;
     }
     return `You are in dungeon room #${user.location}`;
 };
 
 function logFarthestRoom() {
-    // console.log('DEV COMMENT: CHECKING FURTHEST ROOM!')
-    if(user.farthestRoom = user.location){
-        // console.log(`DEV COMMENT: DID NOT COUNT ROOM!`);
-    }   else if(user.farthestRoom < user.location){
-            user.farthestRoom++;
-            // console.log(`DEV COMMENT: I COUNTED +1 ROOM FOR A TOTAL OF ${user.farthestRoom} ROOM(s)!`);
-    }   else if(user.farthestRoom > user.location){
-            // console.log(`DEV COMMENT: DID NOT COUNT ROOM!`);
-    };
+    console.log('You check your map...');
+    if(user.location > user.farthestRoom){ // if the current location is greater than the furthest you have been...
+        console.log(`You update your map with the new area.`);
+        user.farthestRoom++;
+        spawnMonster();
+    }   else if(user.location <= user.farthestRoom){ // if the current location is less far as the furthest room...
+            console.log(`Your are in dungeon room ${user.location}. You have been here before.`);
+    }
 };
 
 const getInput = () => {
