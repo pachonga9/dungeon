@@ -1,0 +1,11 @@
+1. when you get 5 rooms in, change the verbage 3, to say "Return to camp", and for the conformation: 
+"Are you sure you want to return to camp to rest?"
+
+2. for outside the dungeon message: You are outside the dungeon with [x] gold.
+
+3. when you clear a room of a monster, it should be empty on the next run. 
+if there is a previously killed monster on the floor display. "A rotting monster corpse is here"
+
+4. migrate DungeonInReadline to a class in app.ts
+
+5. merge your experiment branch back into main

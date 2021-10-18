@@ -14,6 +14,7 @@ const user = {
 const spawnMonster = () => {
     // user.monsterBlock = !user.monsterBlock;
     user.monsterBlock = true;
+    // console.log('A monster just spawned.');
     // console.log(`DevComment: the monsterBlock is set to ${user.monsterBlock}`);
 };
 
@@ -58,7 +59,7 @@ function kickDoor() {
         console.log('You kick down the door. A monster blocks your path.');
         user.location++;
         logFarthestRoom();
-        console.log(`the farthest room you have travelled is ${user.farthestRoom} floors.`);
+        console.log(`the farthest room you have travelled is ${user.farthestRoom} room(s).`);
         spawnMonster();
         getInput();
     }
@@ -125,14 +126,14 @@ function getLocation() {
 };
 
 function logFarthestRoom() {
-    console.log('DEV COMMENT: CHECKING FURTHEST ROOM!')
+    // console.log('DEV COMMENT: CHECKING FURTHEST ROOM!')
     if(user.farthestRoom = user.location){
-        console.log(`DEV COMMENT: DID NOT COUNT ROOM!`);
+        // console.log(`DEV COMMENT: DID NOT COUNT ROOM!`);
     }   else if(user.farthestRoom < user.location){
             user.farthestRoom++;
-            console.log(`DEV COMMENT: I COUNTED +1 ROOM FOR A TOTAL OF ${user.farthestRoom} ROOM(s)!`);
+            // console.log(`DEV COMMENT: I COUNTED +1 ROOM FOR A TOTAL OF ${user.farthestRoom} ROOM(s)!`);
     }   else if(user.farthestRoom > user.location){
-            console.log(`DEV COMMENT: DID NOT COUNT ROOM!`);
+            // console.log(`DEV COMMENT: DID NOT COUNT ROOM!`);
     };
 };
 
