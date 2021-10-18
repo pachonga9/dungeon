@@ -86,6 +86,7 @@ function runAway() {
             if (answer === 'y') {
                 console.log(`Your father was right about you. You aren't cut out for adventure.`);
                 user.location = 0;
+                user.monsterBlock = false;
             }
             console.clear();
             getInput();
@@ -96,6 +97,7 @@ function runAway() {
             if (answer === 'y') {
                 console.log('You head back to camp.');
                 user.location = 0;
+                user.monsterBlock = false;
             }
             console.clear();
             getInput();
@@ -133,7 +135,7 @@ function isLocationFive() {
 
 function getLocation() {
     isLocationFive();
-    if (user.location === 0) { ///try changing this to just =
+    if (user.location === 0) { 
         return `You are outside the dungeon. You have ${user.gold} gold. The farthest you have gone is room ${user.farthestRoom}.`;
     }
     return `You are in dungeon room #${user.location}`;
@@ -145,7 +147,7 @@ function logFarthestRoom() {
         console.log(`You update your map with the new area.`);
         user.farthestRoom++;
         spawnMonster();
-    }   else if(user.location <= user.farthestRoom){ // if the current location is less far as the furthest room...
+    }   else if(user.location <= user.farthestRoom){ // if the current location is less far as or equal to the furthest room...
             console.log(`Your are in dungeon room ${user.location}. You have been here before.`);
     }
 };
