@@ -14,7 +14,7 @@ const user = {
 const spawnMonster = () => {
     // user.monsterBlock = !user.monsterBlock;
     user.monsterBlock = true;
-    console.log('A MONSTER SPAWNED IN FRONT OF YOU AND BLOCKS YOUR PATH!')
+    console.log('A MONSTER SPAWNED IN FRONT OF YOU AND BLOCKS YOUR PATH!');
     // console.log('A monster just spawned.');
     // console.log(`DevComment: the monsterBlock is set to ${user.monsterBlock}`);
 };
@@ -68,7 +68,7 @@ function kickDoor() {
         console.log(`the farthest room you have travelled is to room ${user.farthestRoom}.`);
         // spawnMonster();
         getInput();
-    } else if(user.location <= user.farthestRoom ){ // if the current location is less than or equal to fathest room...
+    } else if(user.location < user.farthestRoom ){ // if the current location is less than the to farthest room...
         console.clear();
         console.log('You have already kicked down this door. You move deeper into the dungeon.');
         console.log(`A rotting corpse of a monster lay dead on the floor.`);
@@ -86,7 +86,6 @@ function runAway() {
             if (answer === 'y') {
                 console.log(`Your father was right about you. You aren't cut out for adventure.`);
                 user.location = 0;
-                user.monsterBlock = false;
             }
             console.clear();
             getInput();
@@ -97,7 +96,6 @@ function runAway() {
             if (answer === 'y') {
                 console.log('You head back to camp.');
                 user.location = 0;
-                user.monsterBlock = false;
             }
             console.clear();
             getInput();
