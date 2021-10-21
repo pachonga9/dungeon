@@ -9,3 +9,26 @@ if there is a previously killed monster on the floor display. "A rotting monster
 4. migrate DungeonInReadline to a class in app.ts
 
 5. merge your experiment branch back into main
+
+/**
+ * labels
+ * if current equals 0
+ * 1. proceed
+ * 2. quit game
+ * 
+ * if current is less than farthest...
+ * 1. proceed
+ * 2. turn back
+ * 3. quit game
+ * 
+ * if current is equal to farthest and monster is blocking
+ * 1. fight monster
+ * 2. flee
+ * 3. quit game
+ *
+ * if current is equal to farthest and monster is not blocking 
+ * 1. kick door 
+ * 2. turn back
+ * 3. quit game
+ * 
+ */

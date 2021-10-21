@@ -5,20 +5,18 @@ const rl = readline.createInterface({input: stdin, output: stdout});
 
 const user = {
     location: 0,
-    choices: ['1. Proceed', '2. Fight Monster', '3. Run Away', '4. Exit Game'],
+    choices: ['1. Kick down the door', '2. Fight Monsters', '3. Run Away', '4. Exit Game'],
     monsterBlock: false,
     gold: 0,
     farthestRoom: 0,
-    didUserRun: false,
 };
 
 const spawnMonster = () => {
     // user.monsterBlock = !user.monsterBlock;
-    if(user.location === user.farthestRoom){
-        user.monsterBlock = true;
-        console.log('A MONSTER SPAWNED IN FRONT OF YOU AND BLOCKS YOUR PATH!');
-    }
-    user.didUserRun = false;
+    user.monsterBlock = true;
+    console.log('A MONSTER SPAWNED IN FRONT OF YOU AND BLOCKS YOUR PATH!');
+    // console.log('A monster just spawned.');
+    // console.log(`DevComment: the monsterBlock is set to ${user.monsterBlock}`);
 };
 
 const getRandomInt = () => {
@@ -57,19 +55,7 @@ function fightMonster() {
     }
 };
 
-function checkForCowardice(){
-    // console.log('checking for cowdardice...');
-    if(user.location < user.farthestRoom && user.didUserRun){
-        // console.log('You still have to face the monster you ran from....coward.');
-    } else if (user.location === user.farthestRoom && user.didUserRun){
-        // console.log('You face the monster you ran from.')
-        spawnMonster();
-        // user.didUserRun = false;
-    }
-};
-
 function kickDoor() {
-    // checkForCowardice();
     if(user.monsterBlock){ // THIS IS TRUE
         console.clear();
         console.log(`You can't move forward while the monster blocks your path.`);
@@ -80,13 +66,12 @@ function kickDoor() {
         user.location++;
         logFarthestRoom();
         console.log(`the farthest room you have travelled is to room ${user.farthestRoom}.`);
+        // spawnMonster();
         getInput();
-    } else if(user.location < user.farthestRoom){ // if the current location is less than the to farthest room...
+    } else if(user.location < user.farthestRoom ){ // if the current location is less than the to farthest room...
         console.clear();
         console.log('You have already kicked down this door. You move deeper into the dungeon.');
-            if(user.monsterBlock === false){
-                console.log(`A rotting corpse of a monster lay dead on the floor.`);
-            } 
+        console.log(`A rotting corpse of a monster lay dead on the floor.`);
         user.location++;
         logFarthestRoom();
         console.log(`The farthest room you have travelled is to room ${user.farthestRoom}.`);
@@ -101,9 +86,7 @@ function runAway() {
             if (answer === 'y') {
                 console.log(`Your father was right about you. You aren't cut out for adventure.`);
                 user.location = 0;
-                user.monsterBlock = false;
-                user.didUserRun = true;
-            };
+            }
             console.clear();
             getInput();
         });
@@ -153,7 +136,7 @@ function getLocation() {
     if (user.location === 0) { 
         return `You are outside the dungeon. You have ${user.gold} gold. The farthest you have gone is room ${user.farthestRoom}.`;
     }
-    return `You are in dungeon room ${user.location}`;
+    return `You are in dungeon room #${user.location}`;
 };
 
 function logFarthestRoom() {
@@ -167,34 +150,12 @@ function logFarthestRoom() {
     }
 };
 
-
 const getInput = () => {
-    checkForCowardice();
-    // console.log(`did User run? ${user.didUserRun}`);
-    // console.log(`MonsterBlock? ${user.monsterBlock}`);
-    // console.log(`Currently at: ${user.location}`);
-    // console.log(`Farthest Room: ${user.farthestRoom}`);
     const location = getLocation();
     console.log(location);
-    // checkForCowardice();
-    if(user.location === 0){
-        console.log(user.choices[0]);
-        console.log(user.choices[3]);
-    } else if (user.location < user.farthestRoom){
-        console.log(user.choices[0]);
-        console.log(user.choices[2]);
-        console.log(user.choices[3]);
-    } else if (user.location === user.farthestRoom && user.monsterBlock){
-        console.log(user.choices[1]);
-        console.log(user.choices[2]);
-        console.log(user.choices[3]);
-    } else if (user.location === user.farthestRoom && user.monsterBlock === false){
-        console.log(user.choices[0]);
-        console.log(user.choices[2]);
-        console.log(user.choices[3]);
-    } ;
+    user.choices.forEach((item) => console.log(item));
     rl.question('What would you like to do? ', function (answer) {
-        console.log(`You answered ${answer}`);
+        console.log(`you answered ${answer}`);
         handleAnswer(answer);
     });
 };
