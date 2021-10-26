@@ -67,7 +67,7 @@ function getIsRoomOccupied(): boolean {
 }
 
 function kickDoor() {
-    const isMonsterInThisRoom = getIsRoomOccupied();
+    const isMonsterInThisRoom: boolean = getIsRoomOccupied();
     if (isMonsterInThisRoom) {
         console.clear();
         console.log(`You can't move forward while the monster blocks your path.`);
@@ -75,7 +75,7 @@ function kickDoor() {
         return;
     }
 
-    const isInPreviousRoom = getIsPreviousRoom();
+    const isInPreviousRoom: boolean = getIsPreviousRoom();
     if (isInPreviousRoom) {
         user.location++;
         console.clear();
@@ -97,7 +97,7 @@ function kickDoor() {
 function runAway() {
     if (user.location < 5) {
         console.clear();
-        rl.question('Are you sure you want to flee? (y/n) ', function (answer) {
+        rl.question('Are you sure you want to flee? (y/n) ', function (answer: string) {
             if (answer === 'y') {
                 console.log(`Your father was right about you. You aren't cut out for adventure.`);
                 user.location = 0;
@@ -108,7 +108,7 @@ function runAway() {
         });
     } else if (user.location >= 5) {
         console.clear();
-        rl.question('Are you sure you would like to return to camp to rest? (y/n) ', function (answer) {
+        rl.question('Are you sure you would like to return to camp to rest? (y/n) ', function (answer: string) {
             if (answer === 'y') {
                 console.log('You head back to camp.');
                 user.location = 0;
@@ -142,16 +142,16 @@ function handleAnswer(answer: string) {
 
 function describeLocation() {
     if (user.location === 0) {
-        const message = `You are outside the dungeon. You have ${user.gold} gold. The farthest you have gone is room ${user.farthestRoom}.`;
+        const message: string = `You are outside the dungeon. You have ${user.gold} gold. The farthest you have gone is room ${user.farthestRoom}.`;
         console.log(message);
         return;
     }
-    const roomOccupied = getIsRoomOccupied();
+    const roomOccupied: boolean = getIsRoomOccupied();
     if (roomOccupied) {
         console.log('A monster blocks your path');
         return;
     }
-    const isPreviousRoom = getIsPreviousRoom();
+    const isPreviousRoom: boolean = getIsPreviousRoom();
     if (isPreviousRoom) {
         console.log('A rotting corpse is on the ground.');
         return;
