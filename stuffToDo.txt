@@ -32,3 +32,5 @@ if there is a previously killed monster on the floor display. "A rotting monster
  * 3. quit game
  * 
  */
+
+ if i run away from a room while the monster block is true, set monster block to false until you enter the room again.
