@@ -99,7 +99,7 @@ private kickDoor(): void {
 private runAway(): void {
     if (this.user.location < 5) {
         console.clear();
-        this.rl.question('Are you sure you want to flee? (y/n) ', function (answer: string) {
+        this.rl.question('Are you sure you want to flee? (y/n) ', (answer: string): void => {
             if (answer === 'y') {
                 console.log(`Your father was right about you. You aren't cut out for adventure.`);
                 this.user.location = 0;
@@ -110,7 +110,7 @@ private runAway(): void {
         });
     } else if (this.user.location >= 5) {
         console.clear();
-        this.rl.question('Are you sure you would like to return to camp to rest? (y/n) ', function (answer: string) {
+        this.rl.question('Are you sure you would like to return to camp to rest? (y/n) ', (answer: string): void => {
             if (answer === 'y') {
                 console.log('You head back to camp.');
                 this.user.location = 0;
@@ -180,7 +180,7 @@ private getInput(): void {
         console.log(this.user.choices[2]);
         console.log(this.user.choices[3]);
     }
-    this.rl.question('What would you like to do? ', function (answer: string){
+    this.rl.question('What would you like to do? ', (answer: string): void => { /// is this the problem?
         console.log(`You answered ${answer}`);
         this.handleAnswer(answer);
     });
