@@ -186,7 +186,7 @@ getInput(): void {
         this.handleAnswer(answer);
     });
 }
-start = () => {
+start(): void {
 console.clear();
 console.log('Welcome to Dungeon Crawler\n');
 this.getInput();
