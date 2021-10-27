@@ -1,10 +1,11 @@
-
+////run this is newIndex.ts
 import {stdin, stdout} from 'process';
 import * as readline from 'readline';
-class DungeonInReadline {
+const rl = readline.createInterface({input: stdin, output: stdout});
+export class DungeonInReadline {
 
     constructor(){}
-rl = readline.createInterface({input: stdin, output: stdout});
+
 
 user = {
     location: 0,
