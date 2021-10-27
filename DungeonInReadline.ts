@@ -12,18 +12,18 @@ const user = {
     didUserRun: false,
 };
 
-const spawnMonster = () => {
+function spawnMonster(): void {
     if (user.location === user.farthestRoom) {
         user.monsterBlock = true;
     }
     user.didUserRun = false; //resetting this value here is clever. you dont currently need or use the value but its cool.
 };
 
-const getRandomInt = () => {
+function getRandomInt(): number {
     return Math.floor(Math.random() * 10);
 };
 
-const collectGold = () => {
+function collectGold(): void {
     let x: number = getRandomInt();
     user.gold = user.gold + x;
     if (x === 0) {
@@ -33,14 +33,14 @@ const collectGold = () => {
     }
 };
 
-const killMonster = () => {
+function killMonster(): void {
     user.monsterBlock = false;
     console.log('YOUR SWORD CONNECTS! The monster lets out an agonized scream and crumples to the ground, dead. The way forward is clear.');
     collectGold();
     console.log(`You have ${user.gold} gold.`);
 };
 
-function fightMonster() {
+function fightMonster(): void {
     const isRoomOccupied: boolean = getIsRoomOccupied();
     if (isRoomOccupied) {
         console.clear();
@@ -66,7 +66,7 @@ function getIsRoomOccupied(): boolean {
     return user.monsterBlock;
 }
 
-function kickDoor() {
+function kickDoor(): void {
     const isMonsterInThisRoom: boolean = getIsRoomOccupied();
     if (isMonsterInThisRoom) {
         console.clear();
@@ -94,7 +94,7 @@ function kickDoor() {
     getInput();
 }
 
-function runAway() {
+function runAway(): void {
     if (user.location < 5) {
         console.clear();
         rl.question('Are you sure you want to flee? (y/n) ', function (answer: string) {
@@ -119,7 +119,7 @@ function runAway() {
     }
 }
 
-function handleAnswer(answer: string) {
+function handleAnswer(answer: string): void {
     switch (answer) {
         case '1':
             kickDoor();
@@ -140,7 +140,7 @@ function handleAnswer(answer: string) {
     }
 }
 
-function describeLocation() {
+function describeLocation(): void {
     if (user.location === 0) {
         const message: string = `You are outside the dungeon. You have ${user.gold} gold. The farthest you have gone is room ${user.farthestRoom}.`;
         console.log(message);
@@ -160,7 +160,7 @@ function describeLocation() {
     console.log('A fresh corpse is on the ground.');
 }
 
-const getInput = () => {
+function getInput(): void {
     describeLocation();
     if (user.location === 0) {
         console.log(user.choices[0]);
