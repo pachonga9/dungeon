@@ -1,11 +1,9 @@
-////run this is newIndex.ts
+////run this is index.ts
 import {stdin, stdout} from 'process';
 import * as readline from 'readline';
-const rl = readline.createInterface({input: stdin, output: stdout});
 export class DungeonInReadline {
-
+rl = readline.createInterface({input: stdin, output: stdout});
     constructor(){}
-
 
 user = {
     location: 0,
@@ -16,18 +14,18 @@ user = {
     didUserRun: false,
 };
 
-spawnMonster(): void {
+private spawnMonster(): void {
     if (this.user.location === this.user.farthestRoom) {
         this.user.monsterBlock = true;
     }
     this.user.didUserRun = false; //resetting this value here is clever. you dont currently need or use the value but its cool.
 };
 
-getRandomInt(): number {
+private getRandomInt(): number {
     return Math.floor(Math.random() * 10);
 };
 
-collectGold(): void {
+private collectGold(): void {
     let x: number = this.getRandomInt();
     this.user.gold = this.user.gold + x;
     if (x === 0) {
@@ -37,14 +35,14 @@ collectGold(): void {
     }
 };
 
-killMonster(): void {
+private killMonster(): void {
     this.user.monsterBlock = false;
     console.log('YOUR SWORD CONNECTS! The monster lets out an agonized scream and crumples to the ground, dead. The way forward is clear.');
     this.collectGold();
     console.log(`You have ${this.user.gold} gold.`);
 };
 
-fightMonster(): void {
+private fightMonster(): void {
     const isRoomOccupied: boolean = this.getIsRoomOccupied();
     if (isRoomOccupied) {
         console.clear();
@@ -58,11 +56,11 @@ fightMonster(): void {
     }
 }
 
-getIsPreviousRoom(): boolean {
+private getIsPreviousRoom(): boolean {
     return this.user.location !== this.user.farthestRoom;
 }
 
-getIsRoomOccupied(): boolean {
+private getIsRoomOccupied(): boolean {
     const isInPreviousRoom: boolean = this.getIsPreviousRoom();
     if (isInPreviousRoom) {
         return false;
@@ -70,7 +68,7 @@ getIsRoomOccupied(): boolean {
     return this.user.monsterBlock;
 }
 
-kickDoor(): void {
+private kickDoor(): void {
     const isMonsterInThisRoom: boolean = this.getIsRoomOccupied();
     if (isMonsterInThisRoom) {
         console.clear();
@@ -98,10 +96,10 @@ kickDoor(): void {
     this.getInput();
 }
 
-runAway(): void {
+private runAway(): void {
     if (this.user.location < 5) {
         console.clear();
-        rl.question('Are you sure you want to flee? (y/n) ', function (answer: string) {
+        this.rl.question('Are you sure you want to flee? (y/n) ', function (answer: string) {
             if (answer === 'y') {
                 console.log(`Your father was right about you. You aren't cut out for adventure.`);
                 this.user.location = 0;
@@ -112,7 +110,7 @@ runAway(): void {
         });
     } else if (this.user.location >= 5) {
         console.clear();
-        rl.question('Are you sure you would like to return to camp to rest? (y/n) ', function (answer: string) {
+        this.rl.question('Are you sure you would like to return to camp to rest? (y/n) ', function (answer: string) {
             if (answer === 'y') {
                 console.log('You head back to camp.');
                 this.user.location = 0;
@@ -123,7 +121,7 @@ runAway(): void {
     }
 }
 
-handleAnswer(answer: string): void {
+    handleAnswer(answer: string): void {
     switch (answer) {
         case '1':
             this.kickDoor();
@@ -144,7 +142,7 @@ handleAnswer(answer: string): void {
     }
 }
 
-describeLocation(): void {
+private describeLocation(): void {
     if (this.user.location === 0) {
         const message: string = `You are outside the dungeon. You have ${this.user.gold} gold. The farthest you have gone is room ${this.user.farthestRoom}.`;
         console.log(message);
@@ -164,7 +162,7 @@ describeLocation(): void {
     console.log('A fresh corpse is on the ground.');
 }
 
-getInput(): void {
+private getInput(): void {
     this.describeLocation();
     if (this.user.location === 0) {
         console.log(this.user.choices[0]);
@@ -182,7 +180,7 @@ getInput(): void {
         console.log(this.user.choices[2]);
         console.log(this.user.choices[3]);
     }
-    rl.question('What would you like to do? ', function (answer: string){
+    this.rl.question('What would you like to do? ', function (answer: string){
         console.log(`You answered ${answer}`);
         this.handleAnswer(answer);
     });
