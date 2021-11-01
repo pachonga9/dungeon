@@ -4,7 +4,7 @@ import * as readline from "readline";
 
 interface GameState {
   location: number;
-  choices: [index: string, index: string, index: string, index: string];
+  choices: string[];
   monsterBlock: boolean;
   gold: number;
   farthestRoom: number;
