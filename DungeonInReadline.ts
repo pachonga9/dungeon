@@ -1,24 +1,31 @@
 ////run this is index.ts
 import { stdin, stdout } from "process";
 import * as readline from "readline";
+
+interface GameState {
+  location: number;
+  choices: [index: string, index: string, index: string, index: string];
+  monsterBlock: boolean;
+  gold: number;
+  farthestRoom: number;
+}
+
 export class DungeonInReadline {
   rl = readline.createInterface({ input: stdin, output: stdout });
   constructor() {}
 
-  user = {
+  user: GameState = {
     location: 0,
     choices: ["1. Proceed", "2. Fight Monster", "3. Run Away", "4. Exit Game"],
     monsterBlock: false,
     gold: 0,
     farthestRoom: 0,
-    didUserRun: false,
   };
 
   private spawnMonster(): void {
     if (this.user.location === this.user.farthestRoom) {
       this.user.monsterBlock = true;
     }
-    this.user.didUserRun = false; //resetting this value here is clever. you dont currently need or use the value but its cool.
   }
 
   private getRandomInt(): number {
@@ -78,7 +85,7 @@ export class DungeonInReadline {
     const isMonsterInThisRoom: boolean = this.getIsRoomOccupied();
     if (isMonsterInThisRoom) {
       console.clear();
-      console.log(`You can't move forward while the monster blocks your path.`);
+      console.log(`You can't move forward while the monster blocks your path.`); //player is not presented with this option//
       this.getInput();
       return;
     }
@@ -118,10 +125,9 @@ export class DungeonInReadline {
         (answer: string): void => {
           if (answer === "y") {
             console.log(
-              `Your father was right about you. You aren't cut out for adventure.`
+              `Your father was right about you. You aren't cut out for adventure.` //FIX ME: This clears before the player can see it.
             );
             this.user.location = 0;
-            this.user.didUserRun = true;
           }
           console.clear();
           this.getInput();
@@ -209,7 +215,6 @@ export class DungeonInReadline {
       console.log(this.user.choices[3]);
     }
     this.rl.question("What would you like to do? ", (answer: string): void => {
-      /// is this the problem?
       console.log(`You answered ${answer}`);
       this.handleAnswer(answer);
     });
