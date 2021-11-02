@@ -6,8 +6,10 @@ interface GameState {
   location: number;
   choices: string[];
   monsterBlock: boolean;
+  monsterLifeTotal: number;
   gold: number;
   farthestRoom: number;
+  playerLifeTotal: number;
 }
 
 export class DungeonInReadline {
@@ -18,18 +20,24 @@ export class DungeonInReadline {
     location: 0,
     choices: ["1. Proceed", "2. Fight Monster", "3. Run Away", "4. Exit Game"],
     monsterBlock: false,
+    monsterLifeTotal: 0,
     gold: 0,
     farthestRoom: 0,
+    playerLifeTotal: 100,
   };
 
   private spawnMonster(): void {
     if (this.user.location === this.user.farthestRoom) {
       this.user.monsterBlock = true;
+      this.user.monsterLifeTotal = 10;
+      console.log(
+        `monster health points have been set to ${this.user.monsterLifeTotal}`
+      );
     }
   }
 
   private getRandomInt(): number {
-    return Math.floor(Math.random() * 10);
+    return Math.floor(Math.random() * 11);
   }
 
   private collectGold(): void {
@@ -44,10 +52,33 @@ export class DungeonInReadline {
     }
   }
 
+  private rollPlayerAttackDamage(): void {
+    let dmg: number = this.getRandomInt();
+    if (dmg === 0) {
+      console.log("Your sword missed the monster entirely!");
+    } else if (dmg === 10) {
+      console.log(`CRITICAL HIT! The monster takes ${dmg} points of damage!`);
+    } else {
+      console.log(`Your sword connects for ${dmg} points of damage!`);
+    }
+    this.user.monsterLifeTotal = this.user.monsterLifeTotal - dmg;
+    this.checkMonsterLifeStatus();
+  }
+
+  private checkMonsterLifeStatus(): void {
+    if (this.user.monsterLifeTotal > 0) {
+      console.log(
+        `the monster still has ${this.user.monsterLifeTotal} health.`
+      );
+    } else if (this.user.monsterLifeTotal <= 0) {
+      this.killMonster();
+    }
+  }
+
   private killMonster(): void {
     this.user.monsterBlock = false;
     console.log(
-      "YOUR SWORD CONNECTS! The monster lets out an agonized scream and crumples to the ground, dead. The way forward is clear."
+      "The monster lets out an agonized scream and crumples to the ground, dead. The way forward is clear."
     );
     this.collectGold();
     console.log(`You have ${this.user.gold} gold.`);
@@ -58,7 +89,7 @@ export class DungeonInReadline {
     if (isRoomOccupied) {
       console.clear();
       console.log(`You swing your sword at the monster.`);
-      this.killMonster();
+      this.rollPlayerAttackDamage();
       this.getInput();
     } else {
       console.clear();
