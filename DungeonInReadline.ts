@@ -209,7 +209,12 @@ export class DungeonInReadline {
     }
     const roomOccupied: boolean = this.getIsRoomOccupied();
     if (roomOccupied) {
-      console.log("A monster blocks your path");
+      console.log("A monster blocks your path.");
+      if (this.user.monsterLifeTotal === 10) {
+        console.log("He looks healthy.");
+      } else if (this.user.monsterLifeTotal < 10) {
+        console.log("He looks wounded.");
+      }
       return;
     }
     const isPreviousRoom: boolean = this.getIsPreviousRoom();
