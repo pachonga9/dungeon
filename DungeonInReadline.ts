@@ -10,6 +10,7 @@ interface GameState {
   gold: number;
   farthestRoom: number;
   playerLifeTotal: number;
+  playerInventory: [string, number];
 }
 
 export class DungeonInReadline {
@@ -18,12 +19,19 @@ export class DungeonInReadline {
 
   user: GameState = {
     location: 0,
-    choices: ["1. Proceed", "2. Fight Monster", "3. Run Away", "4. Exit Game"],
+    choices: [
+      "1. Proceed",
+      "2. Fight Monster",
+      "3. Run Away",
+      "4. Exit Game",
+      "5. Inventory",
+    ],
     monsterBlock: false,
     monsterLifeTotal: 0,
     gold: 0,
     farthestRoom: 0,
-    playerLifeTotal: 100,
+    playerLifeTotal: 30,
+    playerInventory: ["health Potions", 1],
   };
 
   private spawnMonster(): void {
@@ -76,14 +84,49 @@ export class DungeonInReadline {
     this.checkMonsterLifeStatus();
   }
 
+  private rollMonsterAttackDamage(): void {
+    let dmg: number = this.getRandomInt();
+    if (dmg === 0) {
+      console.log(`The monster lashes out but misses you entirely!`);
+    } else if (dmg === 10) {
+      console.log(
+        `The monster strikes you with astounding strength! You take ${dmg} points of damage!`
+      );
+    } else {
+      console.log(`The monster strikes you for ${dmg} points of damage!`);
+    }
+    this.user.playerLifeTotal = this.user.playerLifeTotal - dmg;
+    this.checkPlayerLifeStatus();
+  }
+
+  private checkPlayerLifeStatus(): void {
+    let health = this.user.playerLifeTotal;
+    console.log(`Player Health: ${health}`);
+    if (health <= 25 && health > 0) {
+      console.log(`You are severely wounded!`);
+      return;
+    } else if (health <= 0) {
+      this.killPlayer();
+    }
+  }
+
   private checkMonsterLifeStatus(): void {
     if (this.user.monsterLifeTotal > 0) {
       console.log(
         `the monster still has ${this.user.monsterLifeTotal} health.`
       );
+      this.rollMonsterAttackDamage();
     } else if (this.user.monsterLifeTotal <= 0) {
       this.killMonster();
     }
+  }
+
+  private killPlayer(): void {
+    console.log(
+      `YOU ARE DEAD. YOUR CORPSE BECOMES A CRUNCHY SNACK FOR THE VARIOUS DARK CREATURES OF THE DUNGEON.`
+    );
+    console.log(`GAME OVER. INSERT 2 MORE COINS TO CONTINUE.`);
+    process.exit();
   }
 
   private killMonster(): void {
@@ -196,6 +239,15 @@ export class DungeonInReadline {
     }
   }
 
+  private openInventory(): void {
+    console.log("You open your inventory.");
+    console.log(this.user.playerInventory);
+    console.log(
+      `This doesn't work yet so I'll just head back to get input so you don't get stuck...`
+    );
+    this.getInput();
+  }
+
   private handleAnswer(answer: string): void {
     switch (answer) {
       case "1":
@@ -211,6 +263,9 @@ export class DungeonInReadline {
         console.log(`Okay, goodbye.`);
         process.exit();
         return;
+      case "5":
+        this.openInventory();
+        break;
       default:
         this.getInput();
         return;
@@ -228,7 +283,7 @@ export class DungeonInReadline {
 
   private describeLocation(): void {
     if (this.user.location === 0) {
-      const message: string = `You are outside the dungeon. You have ${this.user.gold} gold. The farthest you have gone is room ${this.user.farthestRoom}.`;
+      const message: string = `You are outside the dungeon. You have ${this.user.playerLifeTotal} health. You have ${this.user.gold} gold. The farthest you have gone is room ${this.user.farthestRoom}.`;
       console.log(message);
       return;
     }
@@ -260,10 +315,12 @@ export class DungeonInReadline {
     if (this.user.location === 0) {
       console.log(this.user.choices[0]);
       console.log(this.user.choices[3]);
+      console.log(this.user.choices[4]);
     } else if (this.user.location < this.user.farthestRoom) {
       console.log(this.user.choices[0]);
       console.log(this.user.choices[2]);
       console.log(this.user.choices[3]);
+      console.log(this.user.choices[4]);
     } else if (
       this.user.location === this.user.farthestRoom &&
       this.user.monsterBlock
@@ -271,6 +328,7 @@ export class DungeonInReadline {
       console.log(this.user.choices[1]);
       console.log(this.user.choices[2]);
       console.log(this.user.choices[3]);
+      console.log(this.user.choices[4]);
     } else if (
       this.user.location === this.user.farthestRoom &&
       this.user.monsterBlock === false
@@ -278,6 +336,7 @@ export class DungeonInReadline {
       console.log(this.user.choices[0]);
       console.log(this.user.choices[2]);
       console.log(this.user.choices[3]);
+      console.log(this.user.choices[4]);
     }
     this.rl.question("What would you like to do? ", (answer: string): void => {
       console.log(`You answered ${answer}`);
