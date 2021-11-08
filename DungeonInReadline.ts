@@ -52,6 +52,17 @@ export class DungeonInReadline {
     }
   }
 
+  private collectTreasure(): void {
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min) + min);
+    }
+    let x = getRandomInt(10, 50);
+    console.log(`You search the treasure room and find ${x} more gold coins.`);
+    this.user.gold = this.user.gold + x;
+  }
+
   private rollPlayerAttackDamage(): void {
     let dmg: number = this.getRandomInt();
     if (dmg === 0) {
@@ -76,11 +87,15 @@ export class DungeonInReadline {
   }
 
   private killMonster(): void {
+    const treasureRoom: boolean = this.getIsRoomTreasureRoom();
     this.user.monsterBlock = false;
     console.log(
       "The monster lets out an agonized scream and crumples to the ground, dead. The way forward is clear."
     );
     this.collectGold();
+    if (treasureRoom) {
+      this.collectTreasure();
+    }
     console.log(`You have ${this.user.gold} gold.`);
   }
 
@@ -102,6 +117,7 @@ export class DungeonInReadline {
 
   private getIsPreviousRoom(): boolean {
     return this.user.location !== this.user.farthestRoom;
+    ///true or false? the place you are at now is different than the farthest place you've ever been.
   }
 
   private getIsRoomOccupied(): boolean {
@@ -201,12 +217,22 @@ export class DungeonInReadline {
     }
   }
 
+  private getIsRoomTreasureRoom(): boolean {
+    let room = this.user.location;
+    if (room % 5 === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   private describeLocation(): void {
     if (this.user.location === 0) {
       const message: string = `You are outside the dungeon. You have ${this.user.gold} gold. The farthest you have gone is room ${this.user.farthestRoom}.`;
       console.log(message);
       return;
     }
+    const treasureRoom: boolean = this.getIsRoomTreasureRoom();
     const roomOccupied: boolean = this.getIsRoomOccupied();
     if (roomOccupied) {
       console.log("A monster blocks your path.");
@@ -214,6 +240,9 @@ export class DungeonInReadline {
         console.log("He looks healthy.");
       } else if (this.user.monsterLifeTotal < 10) {
         console.log("He looks wounded.");
+      }
+      if (treasureRoom) {
+        console.log("The glint of treasures catch your eye.");
       }
       return;
     }
