@@ -1,6 +1,8 @@
 ////run this is index.ts
 import { stdin, stdout } from "process";
 import * as readline from "readline";
+import { Inventory } from "./inventory";
+const inventory = new Inventory();
 
 interface GameState {
   location: number;
@@ -10,7 +12,6 @@ interface GameState {
   gold: number;
   farthestRoom: number;
   playerLifeTotal: number;
-  playerInventory: [string, number];
 }
 
 export class DungeonInReadline {
@@ -23,15 +24,14 @@ export class DungeonInReadline {
       "1. Proceed",
       "2. Fight Monster",
       "3. Run Away",
-      "4. Exit Game",
-      "5. Inventory",
+      "4. Inventory",
+      "5. Exit Game",
     ],
     monsterBlock: false,
     monsterLifeTotal: 0,
     gold: 0,
     farthestRoom: 0,
-    playerLifeTotal: 30,
-    playerInventory: ["health Potions", 1],
+    playerLifeTotal: 50,
   };
 
   private spawnMonster(): void {
@@ -240,12 +240,45 @@ export class DungeonInReadline {
   }
 
   private openInventory(): void {
+    let hPotName: string = inventory.inventory.potions.potionOfHealth.name;
+    let hPotQty: number = inventory.inventory.potions.potionOfHealth.qty;
     console.log("You open your inventory.");
-    console.log(this.user.playerInventory);
+    console.log(`You have ${hPotQty} ${hPotName}`);
+    if (hPotQty > 0) {
+      this.rl.question(
+        `Would you like to consume ${hPotName}?  (y/n) `,
+        (answer: string): void => {
+          console.log(`You answered ${answer}`);
+          this.handleInventoryAnswer(answer);
+        }
+      );
+    } else if (hPotQty <= 0) {
+      console.log(`You don't have any ${hPotName} left`);
+      this.getInput();
+    }
+  }
+
+  private useHealthPotion(): void {
     console.log(
-      `This doesn't work yet so I'll just head back to get input so you don't get stuck...`
+      `You drink that drank. Feelz good bruh. Your health goes up 10 points.`
     );
+    this.user.playerLifeTotal += 10;
+    inventory.inventory.potions.potionOfHealth.qty -= 1;
     this.getInput();
+  }
+
+  private handleInventoryAnswer(answer: string): void {
+    switch (answer) {
+      case "y":
+        this.useHealthPotion();
+        break;
+      case "n":
+        this.getInput();
+        break;
+      default:
+        this.getInput();
+        return;
+    }
   }
 
   private handleAnswer(answer: string): void {
@@ -260,12 +293,12 @@ export class DungeonInReadline {
         this.runAway();
         break;
       case "4":
-        console.log(`Okay, goodbye.`);
-        process.exit();
-        return;
-      case "5":
         this.openInventory();
         break;
+      case "5":
+        console.log(`Okay, goodbye.`);
+        process.exit();
+        return; ///I left this useless return here for nostalgic purposes.
       default:
         this.getInput();
         return;
