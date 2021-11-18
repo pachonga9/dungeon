@@ -1,13 +1,13 @@
-import { Location } from "./location_Interface";
-import { Outside } from "./loc_Outside";
-import { MonsterRoom } from "./loc_MonsterRoom";
-import { BossRoom } from "./loc_BossRoom";
-import { TreasureRoom } from "./loc_TreasureRoom";
-import { FinalRoom } from "./loc_FinalRoom";
+import { Location } from "./location";
+import { Outside } from "./locations/outside-location";
+import { MonsterRoom } from "./locations/monster-room-location";
+import { BossRoom } from "./locations/boss-room-location";
+import { TreasureRoom } from "./locations/treasure-room-location";
+import { FinalRoom } from "./locations/final-room-location";
 
 export class DungeonLocationFactory {
   create(): Location[] {
-    const locations: Location[];
+    const locations: Location[] = [];
     locations.push(new Outside());
     locations.push(new MonsterRoom());
     locations.push(new MonsterRoom());
