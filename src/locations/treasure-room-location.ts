@@ -1,9 +1,13 @@
+import { Interface } from "readline";
+import { GameStateManager } from "../state/game-state-manager";
+import { PlayerState } from "../state/player-state";
 import { Location } from "./location";
 
 export class TreasureRoom implements Location {
   visited = false;
 
-  getInput(): void {
+  getInput(rl: Interface, playerState: PlayerState, gsm: GameStateManager): Promise<void> {
+    return Promise.resolve(undefined);
   }
 
   describeLocation(): void {

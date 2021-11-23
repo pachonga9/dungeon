@@ -1,6 +1,6 @@
 export enum GameStateId {
   intro,
-  levels,
+  location,
   inventory,
   menu
 }

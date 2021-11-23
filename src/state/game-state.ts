@@ -9,7 +9,7 @@ export abstract class GameState {
   protected constructor(
     readonly stateName: string,
     protected readonly gsm: GameStateManager,
-    protected readonly rl = readline.createInterface({ input: stdin, output: stdout })
+    protected readonly rl: readline.Interface
   ) {
   }
 
