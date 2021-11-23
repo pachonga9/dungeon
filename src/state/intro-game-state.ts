@@ -1,4 +1,5 @@
 import { GameState } from "./game-state";
+import { GameStateId } from "./game-state-id";
 import { GameStateManager } from "./game-state-manager";
 
 export class IntroGameState extends GameState {
@@ -7,11 +8,10 @@ export class IntroGameState extends GameState {
   }
 
   process(): Promise<void> {
-    return new Promise(function(resolve) {
+    return new Promise((resolve) => {
       console.log("Welcome to the Dungeon Game");
-      const asdf = "asdf";
       return this.rl.question("Press any key to Begin", () => {
-        console.log(asdf);
+        this.next(GameStateId.levels);
         resolve();
       });
     });

@@ -10,8 +10,4 @@ export class MenuGameState extends GameState {
     return Promise.resolve(undefined);
   }
 
-  protected canNext(next: GameState): boolean {
-    return false;
-  }
-
 }

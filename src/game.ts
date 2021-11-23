@@ -9,8 +9,8 @@ export class Game {
   }
 
   start = async (): Promise<void> => {
-    let currentState = this.gsm.currentState;
     while (this.gsm.quit === false) {
+      let currentState = this.gsm.currentState;
       await currentState.process();
     }
   };

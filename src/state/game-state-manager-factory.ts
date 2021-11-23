@@ -13,6 +13,7 @@ export class GameStateManagerFactory {
     const levelState = new LevelGameState(gsm);
     const inventoryState = new InventoryGameState(gsm);
     const menuState = new MenuGameState(gsm);
+
     gsm.addState(GameStateId.intro, introState);
     gsm.addState(GameStateId.levels, levelState);
     gsm.addState(GameStateId.inventory, inventoryState);

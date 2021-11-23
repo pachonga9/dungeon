@@ -9,9 +9,4 @@ export class InventoryGameState extends GameState {
   process(): Promise<void> {
     return Promise.resolve(undefined);
   }
-
-  protected canNext(next: GameState): boolean {
-    return false;
-  }
-
 }
