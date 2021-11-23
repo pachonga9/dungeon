@@ -1,4 +1,4 @@
-import { DungeonGameState } from "./gs";
+import { DungeonGameState } from "./game-state";
 import { DungeonLocationFactory } from "./dungeonLocationFactory";
 
 const gs = new DungeonGameState();

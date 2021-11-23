@@ -1,6 +1,6 @@
 import { Location } from "../location";
 import { Inventory } from "../inventory";
-import { DungeonGameState } from "../gs";
+import { DungeonGameState } from "../game-state";
 import { stdin, stdout } from "process";
 import * as readline from "readline";
 
