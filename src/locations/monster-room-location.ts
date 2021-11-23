@@ -6,9 +6,13 @@ import { Location } from "./location";
 export class MonsterRoom implements Location {
   visited = false;
 
-  getInput(rl: Interface, playerState: PlayerState, gsm: GameStateManager): Promise<void> {
-    return Promise.resolve(undefined);
+  describeLocation(): void {}
+
+  getInputOptions(): string[] {
+    return [];
   }
 
-  describeLocation(): void {}
+  handleInput(input: string, playerState: PlayerState, gsm: GameStateManager): boolean {
+    return false;
+  }
 }

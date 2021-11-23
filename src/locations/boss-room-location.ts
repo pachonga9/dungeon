@@ -10,7 +10,12 @@ export class BossRoom implements Location {
   describeLocation(): void {
   }
 
-  getInput(rl: Interface, playerState: PlayerState, gsm: GameStateManager): Promise<void> {
-    return Promise.resolve(undefined);
+
+  getInputOptions(): string[] {
+    return [];
+  }
+
+  handleInput(input: string, playerState: PlayerState, gsm: GameStateManager): boolean {
+    return false;
   }
 }

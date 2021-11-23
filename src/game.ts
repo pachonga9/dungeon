@@ -1,3 +1,4 @@
+import { GameStateId } from "./state/game-state-id";
 import { GameStateManager } from "./state/game-state-manager";
 import { GameStateManagerFactory } from "./state/game-state-manager-factory";
 
@@ -10,6 +11,7 @@ export class Game {
   }
 
   start = async (): Promise<void> => {
+    this.gsm.setCurrentStateWithId(GameStateId.intro);
     while (this.gsm.quit === false) {
       let currentState = this.gsm.currentState;
       console.clear();

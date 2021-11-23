@@ -9,18 +9,27 @@ import { PlayerState } from "./player-state";
 export class LocationGameState extends GameState {
   private readonly locations: Location[];
 
-  constructor(gsm: GameStateManager, rl: readline.Interface, private readonly playerState = new PlayerState(), locationFactory = new LocationFactory()) {
-    super("LocationGameState", gsm, rl);
+  constructor(
+    gsm: GameStateManager,
+    private readonly rl: readline.Interface,
+    private readonly playerState = new PlayerState(),
+    locationFactory = new LocationFactory()
+  ) {
+    super("LocationGameState", gsm);
     this.locations = locationFactory.create();
   }
 
-  process(): Promise<void> {
+  async process(): Promise<void> {
     const currentLocationIndex = this.playerState.currentRoom;
     const currentLocation = this.locations[currentLocationIndex];
     currentLocation.describeLocation();
-    const = currentLocation.getInputOptions()
-    while()
-    return currentLocation.getInput(this.rl, this.playerState, this.gsm);
+    const options = currentLocation.getInputOptions();
+    const answer = await this.getInput(this.rl, options);
+    currentLocation.handleInput(answer, this.playerState, this.gsm);
+  }
+
+  protected handleInput(input: string, playerState: PlayerState, gsm: GameStateManager): boolean {
+    return false;
   }
 
 }

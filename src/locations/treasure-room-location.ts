@@ -6,10 +6,15 @@ import { Location } from "./location";
 export class TreasureRoom implements Location {
   visited = false;
 
-  getInput(rl: Interface, playerState: PlayerState, gsm: GameStateManager): Promise<void> {
-    return Promise.resolve(undefined);
-  }
 
   describeLocation(): void {
+  }
+
+  getInputOptions(): string[] {
+    return [];
+  }
+
+  handleInput(input: string, playerState: PlayerState, gsm: GameStateManager): boolean {
+    return false;
   }
 }

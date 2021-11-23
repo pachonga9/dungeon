@@ -6,6 +6,7 @@ import { IntroGameState } from "./intro-game-state";
 import { InventoryGameState } from "./inventory-game-state";
 import { LocationGameState } from "./location-game-state";
 import { MenuGameState } from "./menu-game-state";
+import { PlayerState } from "./player-state";
 
 export class GameStateManagerFactory {
 
@@ -14,16 +15,16 @@ export class GameStateManagerFactory {
 
   create(): GameStateManager {
     const gsm = new GameStateManager();
+    const ps = new PlayerState();
     const introGameState = new IntroGameState(gsm, this.rl);
-    const locationGameState = new LocationGameState(gsm, this.rl);
-    const inventoryGameState = new InventoryGameState(gsm, this.rl);
-    const menuGameState = new MenuGameState(gsm, this.rl);
+    const locationGameState = new LocationGameState(gsm, this.rl, ps);
+    const inventoryGameState = new InventoryGameState(gsm, this.rl, ps);
+    const menuGameState = new MenuGameState(gsm, this.rl, ps);
 
     gsm.addState(GameStateId.intro, introGameState);
     gsm.addState(GameStateId.location, locationGameState);
     gsm.addState(GameStateId.inventory, inventoryGameState);
     gsm.addState(GameStateId.menu, menuGameState);
-    gsm.currentState = introGameState;
     return gsm;
   }
 }
