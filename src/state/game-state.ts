@@ -1,5 +1,4 @@
 import * as readline from "readline";
-import { GameStateId } from "./game-state-id";
 import { GameStateManager } from "./game-state-manager";
 import { PlayerState } from "./player-state";
 
@@ -12,11 +11,6 @@ export abstract class GameState {
   }
 
   abstract process(): Promise<void>;
-
-  protected next(nextId: GameStateId) {
-    const next = this.gsm.getState(nextId);
-    this.gsm.currentState = next;
-  }
 
   protected abstract handleInput(input: string, playerState: PlayerState, gsm: GameStateManager): boolean;
 

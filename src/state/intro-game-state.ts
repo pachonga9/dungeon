@@ -13,7 +13,7 @@ export class IntroGameState extends GameState {
     return new Promise((resolve) => {
       console.log("Welcome to the Dungeon Game");
       return this.rl.question("Press enter to Begin", () => {
-        this.next(GameStateId.location);
+        this.gsm.setCurrentStateWithId(GameStateId.location);
         resolve();
       });
     });
