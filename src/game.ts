@@ -14,7 +14,6 @@ export class Game {
     this.gsm.setCurrentStateWithId(GameStateId.intro);
     while (this.gsm.quit === false) {
       let currentState = this.gsm.currentState;
-      console.clear();
       await currentState.process();
     }
   };

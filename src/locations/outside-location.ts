@@ -1,41 +1,37 @@
 import { GameStateId } from "../state/game-state-id";
-import { GameStateManager } from "../state/game-state-manager";
-import { PlayerState } from "../state/player-state";
 import { Location } from "./location";
 
-export class Outside implements Location {
-  visited = false;
+export class Outside extends Location {
 
   getInputOptions(): string[] {
     return [
       `Enter the Dungeon`,
       `Inspect Inventory`,
-      `Open Menu`,
-      `Return Home. (quit)`
+      `Open Menu`
     ];
   }
 
-  handleInput(input: string, playerState: PlayerState, gsm: GameStateManager): boolean {
+  handleInput(input: string): boolean {
     switch (input) {
       case "1":
-        break;
-      case "2":
-        gsm.setCurrentStateWithId(GameStateId.inventory);
-        break;
-      case "3":
-        gsm.setCurrentStateWithId(GameStateId.menu);
-        break;
-      case "4":
-        console.log("you give up on adventuring and return to the farm...for now");
-        gsm.quit = true;
-        break;
-      default:
+        this.playerState.currentRoom++;
+        if (this.playerState.currentRoom > this.playerState.farthestRoom) {
+          this.playerState.farthestRoom = this.playerState.currentRoom;
+        }
         return false;
+      case "2":
+        this.gsm.setCurrentStateWithId(GameStateId.inventory);
+        return false;
+      case "3":
+        this.gsm.setCurrentStateWithId(GameStateId.menu);
+        return false;
+      default:
+        return true;
     }
-    return true;
   }
 
   describeLocation(): void {
     console.log("You are outside the dungeon");
+    console.log(`You have ${this.playerState.currentHealth}/${this.playerState.maxHealth} HP`);
   };
 }

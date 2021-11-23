@@ -3,14 +3,15 @@
 import { GameStateManager } from "../state/game-state-manager";
 import { PlayerState } from "../state/player-state";
 
-export interface Location {
-  visited: boolean;
+export abstract class Location {
+  constructor(protected readonly playerState: PlayerState, protected readonly gsm: GameStateManager) {
+  }
 
-  getInputOptions(): string[];
+  abstract getInputOptions(): string[];
 
-  handleInput(input: string, playerState: PlayerState, gsm: GameStateManager): boolean;
+  abstract handleInput(input: string): boolean;
 
-  describeLocation(): void;
+  abstract describeLocation(): void;
 }
 
 /// this location interface, when implemented, forces each individual location class to define these two functions.
