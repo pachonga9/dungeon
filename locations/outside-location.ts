@@ -28,7 +28,7 @@ export class Outside implements Location {
 
   private moveUp(): void {
     console.log("You swing open the rusty door to the dungeon.");
-    // currentLocation.moveUp();
+    currentLocation.moveUp();
   }
 
   private checkShop(): void {

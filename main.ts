@@ -10,6 +10,7 @@ const currentLocation = new CurrentLocation();
 
 interface GameState {
   locations: Location[];
+  current: number;
   // choices: string[];
   // monsterBlock: boolean;
   // monsterLifeTotal: number;
@@ -21,16 +22,22 @@ interface GameState {
 export class DungeonExperimental {
   player: GameState = {
     locations: [],
+    current: 0,
   };
 
   start(): void {
     console.log("Building Rooms...");
     this.player.locations = locationFactory.create();
-    this.runGame();
+    this.runRoom();
   }
-  runGame(): void {
-    let i: number = currentLocation.currentLocationIndex;
+  runRoom(): void {
+    this.player.current = currentLocation.currentLocationIndex;
+    let i = this.player.current;
     let roomToRun = this.player.locations[i];
     roomToRun.getInput();
+
+    // let i: number = currentLocation.currentLocationIndex;
+    // let roomToRun = this.player.locations[i];
+    // roomToRun.getInput();
   }
 }
