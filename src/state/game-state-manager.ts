@@ -24,7 +24,11 @@ export class GameStateManager {
     if (next == null) {
       throw new Error("next state cannot be null");
     }
-    this.logger.log(`You transitioned to: ${next.stateName}, from: ${this.currentState_.stateName}.`);
+    if(this.currentState_ == null){
+      this.logger.log(`You initialized game state to: ${next.stateName}`);
+    }else{
+      this.logger.log(`You transitioned to: ${next.stateName}, from: ${this.currentState_.stateName}.`);
+    }
     this.currentState_ = next;
   };
 

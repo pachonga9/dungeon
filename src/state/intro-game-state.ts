@@ -9,8 +9,9 @@ export class IntroGameState extends GameState {
   process(): Promise<void> {
     return new Promise(function(resolve) {
       console.log("Welcome to the Dungeon Game");
+      const asdf = "asdf";
       return this.rl.question("Press any key to Begin", () => {
-        this.
+        console.log(asdf);
         resolve();
       });
     });
