@@ -1,6 +1,6 @@
-// import { DungeonInReadline } from "./DungeonInReadline";
-// const dungeonInReadline = new DungeonInReadline();
-// dungeonInReadline.start();
-import { DungeonExperimental } from "./main";
-const dungeonExperimental = new DungeonExperimental();
-dungeonExperimental.start();
+import { Game } from "./src/game";
+
+const game = new Game();
+(async () => {
+  await game.start();
+})();

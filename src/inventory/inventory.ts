@@ -1,5 +1,4 @@
 interface inventoryState {
-  gold: number;
   potions: {
     potionOfHealth: {
       name: string;
@@ -22,7 +21,6 @@ interface inventoryState {
 
 export class Inventory {
   inventory: inventoryState = {
-    gold: 0,
     potions: {
       potionOfHealth: {
         name: "potion of Health",
