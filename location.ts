@@ -1,7 +1,6 @@
 /// location interface
 
 export interface Location {
-  visited: boolean;
   getInput(): void;
   describeLocation(): void;
 }
