@@ -1,14 +1,15 @@
 import { Location } from "../location";
 import { Inventory } from "../inventory";
-import { CurrentLocation } from "../currentLocation";
+import { DungeonGameState } from "../gs";
 import { stdin, stdout } from "process";
 import * as readline from "readline";
 
 const inventory = new Inventory();
-const currentLocation = new CurrentLocation();
+const gs = new DungeonGameState();
 
 export class Outside implements Location {
   rl = readline.createInterface({ input: stdin, output: stdout });
+
   getInput(): void {
     this.describeLocation();
     console.log(`1. Enter the Dungeon.`);
@@ -28,7 +29,13 @@ export class Outside implements Location {
 
   private moveUp(): void {
     console.log("You swing open the rusty door to the dungeon.");
-    currentLocation.moveUp();
+    gs.player.currentLocation += 1;
+    console.log(
+      `The current location should say 1. Here's what it says: ${gs.player.currentLocation}`
+    );
+    console.log(
+      "This is the part where the runRoom function in main.ts needs to go again..."
+    );
   }
 
   private checkShop(): void {
