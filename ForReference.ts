@@ -1,7 +1,7 @@
 ////run this is index.ts
 import { stdin, stdout } from "process";
 import * as readline from "readline";
-import { Inventory } from "./inventory";
+import { Inventory } from "./inventory-state";
 const inventory = new Inventory();
 
 interface GameState {
