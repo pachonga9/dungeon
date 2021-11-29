@@ -22,6 +22,7 @@ interface inventoryState {
 
 export class Inventory implements inventoryState {
   gold = 10;
+  // the following properties are inaccessible and show up as undefined.
   potions: {
     potionOfHealth: {
       name: "potion of Health";

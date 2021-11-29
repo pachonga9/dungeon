@@ -17,13 +17,13 @@ export class DungeonLocationFactory {
     const gsm = new GameStateManager();
     const locations: Location[] = [];
     locations.push(new Outside(rl, gsm));
-    locations.push(new MonsterRoom());
-    locations.push(new MonsterRoom());
-    locations.push(new BossRoom());
-    locations.push(new TreasureRoom());
-    locations.push(new MonsterRoom());
-    locations.push(new MonsterRoom());
-    locations.push(new FinalRoom());
+    locations.push(new MonsterRoom(rl, gsm));
+    locations.push(new MonsterRoom(rl, gsm));
+    locations.push(new BossRoom(rl, gsm));
+    locations.push(new TreasureRoom(rl, gsm));
+    locations.push(new MonsterRoom(rl, gsm));
+    locations.push(new MonsterRoom(rl, gsm));
+    locations.push(new FinalRoom(rl, gsm));
     return locations;
   }
 }
