@@ -12,14 +12,19 @@ export class Outside implements Location {
     private readonly gsm = new GameStateManager()
   ) {}
 
-  getInput(): void {
+  getInput(): Promise<string> {
     this.describeLocation();
     console.log(`1. Enter the Dungeon.`);
     console.log(`2. Check Shop.`);
     console.log(`3. Exit Game.`);
-    this.rl.question("What would you like to do? ", (answer: string): void => {
-      console.log(`You answered ${answer}`);
-      this.handleAnswer(answer);
+    return new Promise((resolve, reject) => {
+      this.rl.question(
+        "What would you like to do? ",
+        (answer: string): void => {
+          console.log(`You answered ${answer}`);
+          resolve(answer);
+        }
+      );
     });
   }
 
@@ -32,13 +37,6 @@ export class Outside implements Location {
   private goForward(): void {
     console.log("You swing open the rusty door to the dungeon.");
     this.gsm.moveUp();
-    console.log(
-      `I am the outside location file. I also report that the current location should say 1. According to me, here's what it says: ${this.gsm.gs.currentLocation}`
-    );
-    console.log(
-      "This is the part where the runRoom function in main.ts needs to go again... for now, I will exit the process."
-    );
-    process.exit();
   }
 
   private checkShop(): void {
@@ -52,7 +50,7 @@ export class Outside implements Location {
     this.getInput();
   }
 
-  private handleAnswer(answer: string): void {
+  handleAnswer(answer: string): void {
     switch (answer) {
       case "1":
         this.goForward();
@@ -62,7 +60,7 @@ export class Outside implements Location {
         break;
       case "3":
         console.log(`Okay, goodbye.`);
-        process.exit();
+        this.gsm.gs.notDone = false;
       default:
         this.getInput();
         return;

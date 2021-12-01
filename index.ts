@@ -1,3 +1,5 @@
 import { DungeonExperimental } from "./main";
 const dungeonExperimental = new DungeonExperimental();
-dungeonExperimental.start();
+(async () => {
+  await dungeonExperimental.start();
+})();
