@@ -16,7 +16,8 @@ export class MonsterRoom implements Location {
     this.describeLocation();
     console.log(`1. Move Forward.`);
     console.log(`2. Check Shop.`);
-    console.log(`3. Exit Game.`);
+    console.log(`3. Flee`);
+    console.log(`4. Exit Game.`);
     return new Promise((resolve, reject) => {
       this.rl.question(
         "What would you like to do? ",
@@ -29,23 +30,64 @@ export class MonsterRoom implements Location {
   }
 
   describeLocation(): void {
-    console.log("This room was made for monsters...");
+    console.log("MRL: This room was made for monsters...");
+    console.log(`MRL: You are in room ${this.gsm.gs.currentLocation}. The walls are covered with claw marks. Tufts of fur, flesh and bone cover the floor.
+    It is obvious that some foul creature has been living here.`);
   }
 
+  // getIsPreviousRoom(): boolean {
+  //   return this.gsm.getIsPreviousRoom();
+  // }
+
+  // getIsRoomOccupied(): boolean {
+  //   return this.gsm.getIsPreviousRoom();
+  // }
+
+  // private spawnMonster(): void {
+  //   this.gsm.spawnMonster();
+  // }
+
   private goForward(): void {
-    console.log("You swing open the rusty door to the next room.");
+    console.log(`MRL: Seeing if the path forward is clear...`);
+    console.log(`MRL: Hey GSM, is this room occupied?`);
+    const isMonsterInThisRoom: boolean = this.gsm.getIsRoomOccupied();
+    if (isMonsterInThisRoom) {
+      console.log(
+        `MRL: You can't move forward while the monster blocks your path.`
+      );
+      this.getInput();
+      return;
+    }
+
+    const isInPreviousRoom: boolean = this.gsm.getIsPreviousRoom();
+    if (isInPreviousRoom) {
+      console.log(
+        "MRL: You have already kicked down this door. You move deeper into the dungeon."
+      );
+      this.gsm.moveUp();
+      console.log(
+        `MRL: You check your map. You are in dungeon room ${this.gsm.gs.currentLocation}. You have been here before.`
+      );
+      this.getInput();
+      return;
+    }
     this.gsm.moveUp();
   }
 
-  private checkShop(): void {
+  private fightMonster(): void {
     console.log(
-      "An old shack serves as a last stop for the intrepid and stupid dungeoneers alike."
+      "MRL: You fight... but the dev has yet to create the combat stuff so..."
     );
-    console.log("A sign hangs on the door. SHOP CLOSED!");
     console.log(
-      "Looks like there will be no shopping today. You head back to the start."
+      "MRL: Looks like there will be no fighting today. You head back to the start."
     );
     this.getInput();
+  }
+
+  private flee(): void {
+    console.log("MRL: You turn and run towards the exit like a coward.");
+    console.log(`MRL: Telling the GSM to runaway...`);
+    this.gsm.runAway();
   }
 
   handleAnswer(answer: string): void {
@@ -54,11 +96,15 @@ export class MonsterRoom implements Location {
         this.goForward();
         break;
       case "2":
-        this.checkShop();
+        this.fightMonster();
         break;
       case "3":
+        this.flee();
+        break;
+      case "4":
         console.log(`Okay, goodbye.`);
         this.gsm.gs.notDone = false;
+        process.exit();
       default:
         this.getInput();
         return;

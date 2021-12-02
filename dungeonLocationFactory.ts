@@ -9,21 +9,23 @@ import { FinalRoom } from "./locations/final-room-location";
 import { GameStateManager } from "./game-state-manager";
 
 export class DungeonLocationFactory {
+  constructor(private readonly gsm: GameStateManager) {}
+
   create(): Location[] {
+    console.log(`DLC: Yeah, yeah...I got it. BUILDING ROOMS...STBY.`);
     const rl = readline.createInterface({
       input: stdin,
       output: stdout,
     });
-    const gsm = new GameStateManager();
     const locations: Location[] = [];
-    locations.push(new Outside(rl, gsm));
-    locations.push(new MonsterRoom(rl, gsm));
-    locations.push(new MonsterRoom(rl, gsm));
-    locations.push(new BossRoom(rl, gsm));
-    locations.push(new TreasureRoom(rl, gsm));
-    locations.push(new MonsterRoom(rl, gsm));
-    locations.push(new MonsterRoom(rl, gsm));
-    locations.push(new FinalRoom(rl, gsm));
+    locations.push(new Outside(rl, this.gsm));
+    locations.push(new MonsterRoom(rl, this.gsm));
+    locations.push(new MonsterRoom(rl, this.gsm));
+    locations.push(new BossRoom(rl, this.gsm));
+    locations.push(new TreasureRoom(rl, this.gsm));
+    locations.push(new MonsterRoom(rl, this.gsm));
+    locations.push(new MonsterRoom(rl, this.gsm));
+    locations.push(new FinalRoom(rl, this.gsm));
     return locations;
   }
 }

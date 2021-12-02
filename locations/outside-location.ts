@@ -13,6 +13,7 @@ export class Outside implements Location {
   ) {}
 
   getInput(): Promise<string> {
+    console.log("OL: Getting Input...");
     this.describeLocation();
     console.log(`1. Enter the Dungeon.`);
     console.log(`2. Check Shop.`);
@@ -30,12 +31,12 @@ export class Outside implements Location {
 
   describeLocation(): void {
     console.log(
-      `You are outside of the dungeon. You have ${this.gsm.gs.inventory.gold} gold.`
+      `OL: You are outside of the dungeon. You have ${this.gsm.gs.inventory.gold} gold. The furthest you have gone is room ${this.gsm.gs.farthestRoom}.`
     );
   }
 
   private goForward(): void {
-    console.log("You swing open the rusty door to the dungeon.");
+    console.log("OL: You swing open the rusty door to the dungeon.");
     this.gsm.moveUp();
   }
 
@@ -61,6 +62,7 @@ export class Outside implements Location {
       case "3":
         console.log(`Okay, goodbye.`);
         this.gsm.gs.notDone = false;
+        process.exit();
       default:
         this.getInput();
         return;
