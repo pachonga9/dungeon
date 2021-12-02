@@ -33,19 +33,10 @@ export class MonsterRoom implements Location {
     console.log("MRL: This room was made for monsters...");
     console.log(`MRL: You are in room ${this.gsm.gs.currentLocation}. The walls are covered with claw marks. Tufts of fur, flesh and bone cover the floor.
     It is obvious that some foul creature has been living here.`);
+    if (this.gsm.gs.monsterBlock === true) {
+      console.log("A monster Blocks your path.");
+    }
   }
-
-  // getIsPreviousRoom(): boolean {
-  //   return this.gsm.getIsPreviousRoom();
-  // }
-
-  // getIsRoomOccupied(): boolean {
-  //   return this.gsm.getIsPreviousRoom();
-  // }
-
-  // private spawnMonster(): void {
-  //   this.gsm.spawnMonster();
-  // }
 
   private goForward(): void {
     console.log(`MRL: Seeing if the path forward is clear...`);

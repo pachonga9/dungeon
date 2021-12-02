@@ -37,6 +37,7 @@ export class Outside implements Location {
 
   private goForward(): void {
     console.log("OL: You swing open the rusty door to the dungeon.");
+    this.gsm.spawnMonster();
     this.gsm.moveUp();
   }
 
