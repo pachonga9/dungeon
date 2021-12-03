@@ -7,8 +7,6 @@ interface GameState {
   farthestRoom: number;
   inventory: Inventory;
   notDone: boolean;
-  monsterBlock: boolean;
-  monsterLifeTotal: number;
   playerLifeTotal: number;
 }
 
@@ -18,7 +16,5 @@ export class DungeonGameState implements GameState {
   farthestRoom = 0;
   inventory = new Inventory();
   notDone = true;
-  monsterBlock = false;
-  monsterLifeTotal = 10;
   playerLifeTotal = 30;
 }

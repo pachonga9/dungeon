@@ -15,7 +15,7 @@ export class MonsterRoom implements Location {
   getInput(): Promise<string> {
     this.describeLocation();
     console.log(`1. Move Forward.`);
-    console.log(`2. Check Shop.`);
+    console.log(`2. Fight Monster.`);
     console.log(`3. Flee`);
     console.log(`4. Exit Game.`);
     return new Promise((resolve, reject) => {
@@ -29,55 +29,118 @@ export class MonsterRoom implements Location {
     });
   }
 
+  //Monster stuff//
+  monsterAlive: boolean = true;
+  monsterLife: number = 10;
+
   describeLocation(): void {
-    console.log("MRL: This room was made for monsters...");
-    console.log(`MRL: You are in room ${this.gsm.gs.currentLocation}. The walls are covered with claw marks. Tufts of fur, flesh and bone cover the floor.
-    It is obvious that some foul creature has been living here.`);
-    if (this.gsm.gs.monsterBlock === true) {
-      console.log("A monster Blocks your path.");
+    console.log(`You are in dungeon room ${this.gsm.gs.currentLocation}.`);
+    if (this.monsterAlive) {
+      console.log(`A monster blocks your path.`);
+      if (this.monsterLife >= 10) {
+        console.log(`He looks healthy and hungry...`);
+      } else if (this.monsterLife < 10) {
+        console.log(`He looks wounded...`);
+      }
+    } else {
+      console.log("A monster lays dead on the floor.");
     }
   }
 
   private goForward(): void {
-    console.log(`MRL: Seeing if the path forward is clear...`);
-    console.log(`MRL: Hey GSM, is this room occupied?`);
-    const isMonsterInThisRoom: boolean = this.gsm.getIsRoomOccupied();
-    if (isMonsterInThisRoom) {
-      console.log(
-        `MRL: You can't move forward while the monster blocks your path.`
-      );
-      return;
+    if (this.monsterAlive) {
+      console.log(`You can't move forward while a monster blocks your path.`);
+    } else {
+      console.log("With the monster dead, you move into the next room.");
+      this.gsm.gs.currentLocation++;
+      ///If youve been to the next room before, dont itterate farthest yet.
+      /// if you havent been to the next room before, this.gsm.gs.farthestRoom++
     }
-
-    const isInPreviousRoom: boolean = this.gsm.getIsPreviousRoom();
-    if (isInPreviousRoom) {
-      console.log(
-        "MRL: You have already kicked down this door. You move deeper into the dungeon."
-      );
-      this.gsm.moveUp();
-      console.log(
-        `MRL: You check your map. You are in dungeon room ${this.gsm.gs.currentLocation}. You have been here before.`
-      );
-      this.getInput();
-      return;
-    }
-    this.gsm.moveUp();
   }
 
   private fightMonster(): void {
+    if (this.monsterAlive) {
+      // console.clear();
+      console.log(`You swing your sword at the monster.`);
+      this.rollPlayerAttackDamage();
+    } else {
+      // console.clear();
+      console.log(
+        `There is no monster here to fight. You wrestle with your inner demons.`
+      );
+    }
+  }
+
+  rollPlayerAttackDamage(): void {
+    let dmg: number = this.getRandomInt();
+    if (dmg === 0) {
+      console.log("Your sword missed the monster entirely!");
+    } else if (dmg === 10) {
+      console.log(`CRITICAL HIT! The monster takes ${dmg} points of damage!`);
+    } else {
+      console.log(`Your sword connects for ${dmg} points of damage!`);
+    }
+    this.monsterLife = this.monsterLife - dmg;
+    this.checkMonsterLifeStatus();
+  }
+
+  private checkMonsterLifeStatus(): void {
+    if (this.monsterLife > 0) {
+      console.log(`the monster still has ${this.monsterLife} health.`);
+      this.rollMonsterAttackDamage();
+    } else if (this.monsterLife <= 0) {
+      this.killMonster();
+    }
+  }
+
+  private rollMonsterAttackDamage(): void {
+    let dmg: number = this.getRandomInt();
+    if (dmg === 0) {
+      console.log(`The monster lashes out but misses you entirely!`);
+    } else if (dmg === 10) {
+      console.log(
+        `The monster strikes you with astounding strength! You take ${dmg} points of damage!`
+      );
+    } else {
+      console.log(`The monster strikes you for ${dmg} points of damage!`);
+    }
+    this.gsm.gs.playerLifeTotal = this.gsm.gs.playerLifeTotal - dmg;
+    this.checkPlayerLifeStatus();
+  }
+
+  private checkPlayerLifeStatus(): void {
+    let health = this.gsm.gs.playerLifeTotal;
+    console.log(`Player Health: ${health}`);
+    if (health <= 25 && health > 0) {
+      console.log(`You are severely wounded!`);
+      return;
+    } else if (health <= 0) {
+      this.killPlayer();
+    }
+  }
+
+  private killPlayer(): void {
     console.log(
-      "MRL: You fight... but the dev has yet to create the combat stuff so..."
+      `YOU ARE DEAD. YOUR CORPSE BECOMES A CRUNCHY SNACK FOR THE VARIOUS DARK CREATURES OF THE DUNGEON.`
     );
+    console.log(`GAME OVER. INSERT 2 MORE COINS TO CONTINUE.`);
+    process.exit();
+  }
+
+  private killMonster(): void {
+    this.monsterAlive = false;
     console.log(
-      "MRL: Looks like there will be no fighting today. You head back to the start."
+      "The monster lets out an agonized scream and crumples to the ground, dead. The way forward is clear."
     );
-    this.getInput();
+  }
+
+  private getRandomInt(): number {
+    return Math.floor(Math.random() * 11);
   }
 
   private flee(): void {
     console.log("MRL: You turn and run towards the exit like a coward.");
-    console.log(`MRL: Telling the GSM to runaway...`);
-    this.gsm.runAway();
+    this.gsm.gs.currentLocation = 0;
   }
 
   handleAnswer(answer: string): void {
@@ -96,7 +159,7 @@ export class MonsterRoom implements Location {
         this.gsm.gs.notDone = false;
         process.exit();
       default:
-        this.getInput();
+        // this.getInput();
         return;
     }
   }

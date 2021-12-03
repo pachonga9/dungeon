@@ -8,7 +8,7 @@ export class DungeonExperimental {
 
   async start(): Promise<void> {
     console.log("MAIN: Ignition. Let's do this. Starting stuff.");
-    console.log(`MAIN: Dungeon Location Factory, pickup the phone, you ho...`);
+    console.log(`MAIN: Dungeon Location Factory, pickup the phone...`);
     this.gsm.gs.locations = this.locationFactory.create();
     while (this.gsm.gs.notDone) {
       await this.runRoom();

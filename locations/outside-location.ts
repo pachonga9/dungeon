@@ -36,9 +36,8 @@ export class Outside implements Location {
   }
 
   private goForward(): void {
-    console.log("OL: You swing open the rusty door to the dungeon.");
-    this.gsm.spawnMonster();
-    this.gsm.moveUp();
+    console.log("OL: Moving forward into the dungeon unabaited...");
+    this.gsm.gs.currentLocation++;
   }
 
   private checkShop(): void {
@@ -49,7 +48,6 @@ export class Outside implements Location {
     console.log(
       "Looks like there will be no shopping today. You head back to the start."
     );
-    this.getInput();
   }
 
   handleAnswer(answer: string): void {
@@ -65,7 +63,6 @@ export class Outside implements Location {
         this.gsm.gs.notDone = false;
         process.exit();
       default:
-        this.getInput();
         return;
     }
   }
