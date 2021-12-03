@@ -46,7 +46,6 @@ export class MonsterRoom implements Location {
       console.log(
         `MRL: You can't move forward while the monster blocks your path.`
       );
-      this.getInput();
       return;
     }
 
