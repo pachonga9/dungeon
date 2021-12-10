@@ -44,10 +44,8 @@ export class Outside implements Location {
     console.log(
       "An old shack serves as a last stop for the intrepid and stupid dungeoneers alike."
     );
-    console.log("A sign hangs on the door. SHOP CLOSED!");
-    console.log(
-      "Looks like there will be no shopping today. You head back to the start."
-    );
+    console.log("You head up to the door to the shop.");
+    this.gsm.gs.currentLocation = 8;
   }
 
   handleAnswer(answer: string): void {

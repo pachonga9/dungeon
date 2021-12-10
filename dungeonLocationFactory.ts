@@ -7,7 +7,7 @@ import { BossRoom } from "./locations/boss-room-location";
 import { TreasureRoom } from "./locations/treasure-room-location";
 import { FinalRoom } from "./locations/final-room-location";
 import { GameStateManager } from "./game-state-manager";
-
+import { Shop } from "./locations/shop-location";
 export class DungeonLocationFactory {
   constructor(private readonly gsm: GameStateManager) {}
 
@@ -26,6 +26,7 @@ export class DungeonLocationFactory {
     locations.push(new MonsterRoom(rl, this.gsm));
     locations.push(new MonsterRoom(rl, this.gsm));
     locations.push(new FinalRoom(rl, this.gsm));
+    locations.push(new Shop(rl, this.gsm));
     return locations;
   }
 }

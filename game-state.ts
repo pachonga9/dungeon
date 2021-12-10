@@ -16,5 +16,5 @@ export class DungeonGameState implements GameState {
   farthestRoom = 0;
   inventory = new Inventory();
   notDone = true;
-  playerLifeTotal = 30;
+  playerLifeTotal = 50;
 }

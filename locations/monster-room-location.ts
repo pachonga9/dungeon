@@ -111,7 +111,7 @@ export class MonsterRoom implements Location {
   private checkPlayerLifeStatus(): void {
     let health = this.gsm.gs.playerLifeTotal;
     console.log(`Player Health: ${health}`);
-    if (health <= 25 && health > 0) {
+    if (health <= 15 && health > 0) {
       console.log(`You are severely wounded!`);
       return;
     } else if (health <= 0) {
