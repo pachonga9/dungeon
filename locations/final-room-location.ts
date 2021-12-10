@@ -16,7 +16,7 @@ export class FinalRoom implements Location {
     console.log(`1. Move Forward`);
     console.log(`2. Greet Tom`);
     console.log(`3. Flee`);
-    console.log(`4. Exit Game.`);
+    console.log(`4. Menu`);
     return new Promise((resolve, reject) => {
       this.rl.question(
         "What would you like to do? ",
@@ -67,9 +67,11 @@ export class FinalRoom implements Location {
         this.flee();
         break;
       case "4":
-        console.log(`Okay, goodbye.`);
-        this.gsm.gs.notDone = false;
-        process.exit();
+        this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
+        this.gsm.gs.currentLocation = 9;
+      // console.log(`Okay, goodbye.`);
+      // this.gsm.gs.notDone = false;
+      // process.exit();
       default:
         // this.getInput();
         return;

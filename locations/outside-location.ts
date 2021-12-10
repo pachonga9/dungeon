@@ -17,7 +17,7 @@ export class Outside implements Location {
     this.describeLocation();
     console.log(`1. Enter the Dungeon.`);
     console.log(`2. Check Shop.`);
-    console.log(`3. Exit Game.`);
+    console.log(`3. Menu.`);
     return new Promise((resolve, reject) => {
       this.rl.question(
         "What would you like to do? ",
@@ -31,7 +31,8 @@ export class Outside implements Location {
 
   describeLocation(): void {
     console.log(
-      `OL: You are outside of the dungeon. You have ${this.gsm.gs.inventory.gold} gold. The furthest you have gone is room ${this.gsm.gs.farthestRoom}.`
+      `OL: You are outside of the dungeon. You have ${this.gsm.gs.inventory.gold} gold. The furthest you have gone is room ${this.gsm.gs.farthestRoom}...Doesn't matter yet. it will always show zero.`
+      /// the farthest room you have gone doesnt work yet.
     );
   }
 
@@ -57,9 +58,11 @@ export class Outside implements Location {
         this.checkShop();
         break;
       case "3":
-        console.log(`Okay, goodbye.`);
-        this.gsm.gs.notDone = false;
-        process.exit();
+        this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
+        this.gsm.gs.currentLocation = 9;
+      // console.log(`Okay, goodbye.`);
+      // this.gsm.gs.notDone = false;
+      // process.exit();
       default:
         return;
     }

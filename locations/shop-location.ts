@@ -18,7 +18,7 @@ export class Shop implements Location {
     this.describeLocation();
     console.log(`1. Peruse Wares.`);
     console.log(`2. Leave the Shop`);
-    console.log(`3. Exit Game.`);
+    console.log(`3. Menu`);
     return new Promise((resolve, reject) => {
       this.rl.question(
         "What would you like to do? ",
@@ -71,9 +71,11 @@ export class Shop implements Location {
         this.leaveShop();
         break;
       case "3":
-        console.log(`Okay, goodbye.`);
-        this.gsm.gs.notDone = false;
-        process.exit();
+        this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
+        this.gsm.gs.currentLocation = 9;
+      // console.log(`Okay, goodbye.`);
+      // this.gsm.gs.notDone = false;
+      // process.exit();
       default:
         // this.getInput();
         return;
