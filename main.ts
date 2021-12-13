@@ -18,7 +18,6 @@ export class DungeonExperimental {
     let i = this.gsm.gs.currentLocation;
     console.log(`MAIN: I see that the room you are in is in fact: ${i}.`);
     let roomToRun = this.gsm.gs.locations[i];
-
     const input = await roomToRun.getInput();
     roomToRun.handleAnswer(input);
   }
