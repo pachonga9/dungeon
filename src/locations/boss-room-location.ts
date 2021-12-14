@@ -1,5 +1,6 @@
 import { Location } from "./location";
 import { GameStateManager } from "../state/game-state-manager";
+import { PlayerStateManager } from "../state/player-state-manager";
 import { stdin, stdout } from "process";
 import * as readline from "readline";
 
@@ -9,7 +10,8 @@ export class BossRoom implements Location {
       input: stdin,
       output: stdout,
     }),
-    private readonly gsm = new GameStateManager()
+    private readonly gsm = new GameStateManager(),
+    private readonly psm = new PlayerStateManager()
   ) {}
 
   getInput(): Promise<string> {
@@ -115,12 +117,14 @@ export class BossRoom implements Location {
       console.log('"rrrrAAAH!!');
       console.log(`The boss strikes you for ${dmg} points of damage!`);
     }
-    this.gsm.gs.playerLifeTotal = this.gsm.gs.playerLifeTotal - dmg;
+    this.psm.player.lifeTotal = this.psm.player.lifeTotal - dmg;
+    // this.gsm.gs.playerLifeTotal = this.gsm.gs.playerLifeTotal - dmg;
     this.checkPlayerLifeStatus();
   }
 
   private checkPlayerLifeStatus(): void {
-    let health = this.gsm.gs.playerLifeTotal;
+    let health = this.psm.player.lifeTotal;
+    // let health = this.gsm.gs.playerLifeTotal;
     console.log(`Player Health: ${health}`);
     if (health <= 15 && health > 0) {
       console.log(`You are severely wounded!`);

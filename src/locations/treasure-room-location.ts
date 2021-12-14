@@ -2,7 +2,6 @@ import { Location } from "./location";
 import { GameStateManager } from "../state/game-state-manager";
 import { stdin, stdout } from "process";
 import * as readline from "readline";
-import { Console } from "console";
 
 export class TreasureRoom implements Location {
   constructor(

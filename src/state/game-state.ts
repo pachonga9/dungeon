@@ -8,7 +8,7 @@ interface GameState {
   farthestRoom: number;
   inventory: Inventory;
   notDone: boolean;
-  playerLifeTotal: number;
+  // playerLifeTotal: number;
 }
 
 export class DungeonGameState implements GameState {
@@ -18,5 +18,5 @@ export class DungeonGameState implements GameState {
   farthestRoom = 0;
   inventory = new Inventory();
   notDone = true;
-  playerLifeTotal = 500;
+  // playerLifeTotal = 500;
 }

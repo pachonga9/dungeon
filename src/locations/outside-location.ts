@@ -1,5 +1,6 @@
 import { Location } from "./location";
 import { GameStateManager } from "../state/game-state-manager";
+import { PlayerStateManager } from "../state/player-state-manager";
 import { stdin, stdout } from "process";
 import * as readline from "readline";
 
@@ -9,7 +10,8 @@ export class Outside implements Location {
       input: stdin,
       output: stdout,
     }),
-    private readonly gsm = new GameStateManager()
+    private readonly gsm = new GameStateManager(),
+    private readonly psm = new PlayerStateManager()
   ) {}
 
   getInput(): Promise<string> {
@@ -31,7 +33,7 @@ export class Outside implements Location {
 
   describeLocation(): void {
     console.log(
-      `OL: You are outside of the dungeon. You have ${this.gsm.gs.inventory.gold} gold. The furthest you have gone is room ${this.gsm.gs.farthestRoom}...Doesn't matter yet. it will always show zero.`
+      `OL: You are outside of the dungeon. You have ${this.psm.player.lifeTotal} health. You have ${this.gsm.gs.inventory.gold} gold. The furthest you have gone is room ${this.gsm.gs.farthestRoom}...Doesn't matter yet. it will always show zero.`
       /// the farthest room you have gone doesnt work yet.
     );
   }
