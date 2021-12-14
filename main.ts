@@ -1,6 +1,6 @@
 import { DungeonGameState } from "./game-state";
 import { GameStateManager } from "./game-state-manager";
-import { DungeonLocationFactory } from "./dungeonLocationFactory";
+import { DungeonLocationFactory } from "./locations/dungeonLocationFactory";
 
 export class DungeonExperimental {
   private gsm = new GameStateManager();

@@ -1,14 +1,14 @@
 import * as readline from "readline";
 import { stdin, stdout } from "process";
 import { Location } from "./location";
-import { Outside } from "./locations/outside-location";
-import { MonsterRoom } from "./locations/monster-room-location";
-import { BossRoom } from "./locations/boss-room-location";
-import { TreasureRoom } from "./locations/treasure-room-location";
-import { FinalRoom } from "./locations/final-room-location";
-import { GameStateManager } from "./game-state-manager";
-import { Shop } from "./locations/shop-location";
-import { Menu } from "./locations/menu-location";
+import { Outside } from "./outside-location";
+import { MonsterRoom } from "./monster-room-location";
+import { BossRoom } from "./boss-room-location";
+import { TreasureRoom } from "./treasure-room-location";
+import { FinalRoom } from "./final-room-location";
+import { GameStateManager } from "../game-state-manager";
+import { Shop } from "./shop-location";
+import { Menu } from "./menu-location";
 export class DungeonLocationFactory {
   constructor(private readonly gsm: GameStateManager) {}
 

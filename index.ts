@@ -3,4 +3,3 @@ const dungeonExperimental = new DungeonExperimental();
 (async () => {
   await dungeonExperimental.start();
 })();
-
