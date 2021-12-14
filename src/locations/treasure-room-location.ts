@@ -1,5 +1,5 @@
 import { Location } from "./location";
-import { GameStateManager } from "../game-state-manager";
+import { GameStateManager } from "../state/game-state-manager";
 import { stdin, stdout } from "process";
 import * as readline from "readline";
 import { Console } from "console";

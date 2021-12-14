@@ -1,5 +1,5 @@
 import { Inventory } from "./inventory-state";
-import { Location } from "./locations/location";
+import { Location } from "../locations/location";
 
 interface GameState {
   locations: Location[];

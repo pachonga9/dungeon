@@ -1,5 +1,5 @@
-import { DungeonGameState } from "./game-state";
-import { GameStateManager } from "./game-state-manager";
+import { DungeonGameState } from "./state/game-state";
+import { GameStateManager } from "./state/game-state-manager";
 import { DungeonLocationFactory } from "./locations/dungeonLocationFactory";
 
 export class DungeonExperimental {
