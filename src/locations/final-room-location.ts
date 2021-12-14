@@ -1,5 +1,6 @@
 import { Location } from "./location";
 import { GameStateManager } from "../state/game-state-manager";
+import { PlayerStateManager } from "../state/player-state-manager";
 import { stdin, stdout } from "process";
 import * as readline from "readline";
 
@@ -9,7 +10,8 @@ export class FinalRoom implements Location {
       input: stdin,
       output: stdout,
     }),
-    private readonly gsm = new GameStateManager()
+    private readonly gsm = new GameStateManager(),
+    private readonly psm = new PlayerStateManager()
   ) {}
   getInput(): Promise<string> {
     this.describeLocation();

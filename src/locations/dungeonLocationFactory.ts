@@ -7,10 +7,15 @@ import { BossRoom } from "./boss-room-location";
 import { TreasureRoom } from "./treasure-room-location";
 import { FinalRoom } from "./final-room-location";
 import { GameStateManager } from "../state/game-state-manager";
+import { PlayerStateManager } from "../state/player-state-manager";
 import { Shop } from "./shop-location";
 import { Menu } from "./menu-location";
+
 export class DungeonLocationFactory {
-  constructor(private readonly gsm: GameStateManager) {}
+  constructor(
+    private readonly gsm: GameStateManager,
+    private readonly psm: PlayerStateManager
+  ) {}
 
   create(): Location[] {
     console.log(`DLC: Yeah, yeah...I got it. BUILDING ROOMS...STBY.`);
@@ -19,13 +24,13 @@ export class DungeonLocationFactory {
       output: stdout,
     });
     const locations: Location[] = [];
-    locations.push(new Outside(rl, this.gsm));
-    locations.push(new MonsterRoom(rl, this.gsm));
-    locations.push(new MonsterRoom(rl, this.gsm));
-    locations.push(new BossRoom(rl, this.gsm));
+    locations.push(new Outside(rl, this.gsm, this.psm));
+    locations.push(new MonsterRoom(rl, this.gsm, this.psm));
+    locations.push(new MonsterRoom(rl, this.gsm, this.psm));
+    locations.push(new BossRoom(rl, this.gsm, this.psm));
     locations.push(new TreasureRoom(rl, this.gsm));
-    locations.push(new MonsterRoom(rl, this.gsm));
-    locations.push(new MonsterRoom(rl, this.gsm));
+    locations.push(new MonsterRoom(rl, this.gsm, this.psm));
+    locations.push(new MonsterRoom(rl, this.gsm, this.psm));
     locations.push(new FinalRoom(rl, this.gsm));
     locations.push(new Shop(rl, this.gsm));
     locations.push(new Menu(rl, this.gsm));
