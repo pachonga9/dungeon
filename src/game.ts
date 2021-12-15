@@ -1,10 +1,12 @@
 import { DungeonGameState } from "./state/game-state";
 import { GameStateManager } from "./state/game-state-manager";
+import { PlayerStateManager } from "./state/player-state-manager";
 import { DungeonLocationFactory } from "./locations/dungeonLocationFactory";
 
 export class DungeonExperimental {
   private gsm = new GameStateManager();
-  private locationFactory = new DungeonLocationFactory(this.gsm);
+  private psm = new PlayerStateManager();
+  private locationFactory = new DungeonLocationFactory(this.gsm, this.psm);
 
   async start(): Promise<void> {
     console.log("MAIN: Ignition. Let's do this. Starting stuff.");
