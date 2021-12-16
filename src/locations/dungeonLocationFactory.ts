@@ -31,9 +31,9 @@ export class DungeonLocationFactory {
     locations.push(new TreasureRoom(rl, this.gsm));
     locations.push(new MonsterRoom(rl, this.gsm, this.psm));
     locations.push(new MonsterRoom(rl, this.gsm, this.psm));
-    locations.push(new FinalRoom(rl, this.gsm));
-    locations.push(new Shop(rl, this.gsm));
-    locations.push(new Menu(rl, this.gsm));
+    locations.push(new FinalRoom(rl, this.gsm, this.psm));
+    locations.push(new Shop(rl, this.gsm, this.psm));
+    locations.push(new Menu(rl, this.gsm, this.psm));
     return locations;
   }
 }
