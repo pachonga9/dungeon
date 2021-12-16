@@ -35,7 +35,8 @@ export class Menu implements Location {
   }
 
   private resume(): void {
-    this.gsm.gs.currentLocation = this.gsm.gs.lastLocation;
+    this.psm.player.currentRoom = this.psm.player.lastRoom;
+    // this.gsm.gs.currentLocation = this.gsm.gs.lastLocation;
     return;
   }
 

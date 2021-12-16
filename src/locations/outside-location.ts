@@ -33,14 +33,14 @@ export class Outside implements Location {
 
   describeLocation(): void {
     console.log(
-      `OL: You are outside of the dungeon. You have ${this.psm.player.lifeTotal} health. You have ${this.gsm.gs.inventory.gold} gold. The furthest you have gone is room ${this.gsm.gs.farthestRoom}...Doesn't matter yet. it will always show zero.`
-      /// the farthest room you have gone doesnt work yet.
+      `OL: You are outside of the dungeon. You have ${this.psm.player.lifeTotal} health. You have ${this.gsm.gs.inventory.gold} gold. The furthest room you have cleared is room ${this.psm.player.farthestRoom}.`
     );
   }
 
   private goForward(): void {
     console.log("OL: Moving forward into the dungeon unabaited...");
-    this.gsm.gs.currentLocation++;
+    this.psm.player.currentRoom++;
+    // this.gsm.gs.currentLocation++;
   }
 
   private checkShop(): void {
@@ -48,7 +48,8 @@ export class Outside implements Location {
       "An old shack serves as a last stop for the intrepid and stupid dungeoneers alike."
     );
     console.log("You head up to the door to the shop.");
-    this.gsm.gs.currentLocation = 8;
+    this.psm.player.currentRoom = 8;
+    // this.gsm.gs.currentLocation = 8;
   }
 
   handleAnswer(answer: string): void {
@@ -60,8 +61,11 @@ export class Outside implements Location {
         this.checkShop();
         break;
       case "3":
-        this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
-        this.gsm.gs.currentLocation = 9;
+        this.psm.player.lastRoom = this.psm.player.currentRoom;
+        this.psm.player.currentRoom = 9;
+
+      // this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
+      // this.gsm.gs.currentLocation = 9;
       // console.log(`Okay, goodbye.`);
       // this.gsm.gs.notDone = false;
       // process.exit();

@@ -31,7 +31,8 @@ export class FinalRoom implements Location {
   }
 
   describeLocation(): void {
-    console.log(`You are in dungeon room ${this.gsm.gs.currentLocation}.`);
+    // console.log(`You are in dungeon room ${this.gsm.gs.currentLocation}.`);
+    console.log(`You are in dungeon room ${this.psm.player.currentRoom}.`);
     console.log(
       `A man in a white T-shirt stands in front of you. His smile is charming, if not a bit unsettling.`
     );
@@ -54,7 +55,8 @@ export class FinalRoom implements Location {
     console.log(
       "FRL: This is weird. You turn and run towards the exit like a coward."
     );
-    this.gsm.gs.currentLocation = 0;
+    // this.gsm.gs.currentLocation = 0;
+    this.psm.player.currentRoom = 0;
   }
 
   handleAnswer(answer: string): void {
@@ -69,8 +71,11 @@ export class FinalRoom implements Location {
         this.flee();
         break;
       case "4":
-        this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
-        this.gsm.gs.currentLocation = 9;
+        this.psm.player.lastRoom = this.psm.player.currentRoom;
+        this.psm.player.currentRoom = 9;
+
+      // this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
+      // this.gsm.gs.currentLocation = 9;
       // console.log(`Okay, goodbye.`);
       // this.gsm.gs.notDone = false;
       // process.exit();

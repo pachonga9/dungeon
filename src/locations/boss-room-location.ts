@@ -34,9 +34,12 @@ export class BossRoom implements Location {
   //Monster stuff//
   bossAlive: boolean = true;
   bossLife: number = 25;
+  roomComplete: boolean = false;
 
   describeLocation(): void {
-    console.log(`You are in dungeon room ${this.gsm.gs.currentLocation}.`);
+    // console.log(`You are in dungeon room ${this.gsm.gs.currentLocation}.`);
+    console.log(`You are in dungeon room ${this.psm.player.currentRoom}.`);
+
     if (this.bossAlive) {
       console.log(`A HUGE boss monster blocks your path.`);
       if (this.bossLife >= 25) {
@@ -60,7 +63,12 @@ export class BossRoom implements Location {
       console.log(
         "With the monstrous creature dead, you have to squeeze past his stinking form and move into the next room."
       );
-      this.gsm.gs.currentLocation++;
+      // this.gsm.gs.currentLocation++;
+      this.psm.player.currentRoom++;
+      if (this.roomComplete === false) {
+        this.roomComplete = true;
+        this.psm.player.farthestRoom++;
+      }
       ///If youve been to the next room before, dont itterate farthest yet.
       /// if you havent been to the next room before, this.gsm.gs.farthestRoom++
     }
@@ -155,7 +163,8 @@ export class BossRoom implements Location {
 
   private flee(): void {
     console.log("BRL: You turn and run towards the exit like a coward.");
-    this.gsm.gs.currentLocation = 0;
+    // this.gsm.gs.currentLocation = 0;
+    this.psm.player.currentRoom = 0;
   }
 
   handleAnswer(answer: string): void {
@@ -170,8 +179,11 @@ export class BossRoom implements Location {
         this.flee();
         break;
       case "4":
-        this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
-        this.gsm.gs.currentLocation = 9;
+        this.psm.player.lastRoom = this.psm.player.currentRoom;
+        this.psm.player.currentRoom = 9;
+
+      // this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
+      // this.gsm.gs.currentLocation = 9;
       // console.log(`Okay, goodbye.`);
       // this.gsm.gs.notDone = false;
       // process.exit();
