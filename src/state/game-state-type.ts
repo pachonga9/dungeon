@@ -1,4 +1,4 @@
-export enum GameStateTypes {
+export enum GameStateType {
   dungeon = 'dungeonzzzz',
   menu = 'menu'
 }

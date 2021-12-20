@@ -6,13 +6,11 @@ import { MonsterRoom } from "./monster-room-location";
 import { BossRoom } from "./boss-room-location";
 import { TreasureRoom } from "./treasure-room-location";
 import { FinalRoom } from "./final-room-location";
-import { GameStateManager } from "../state/game-state-manager";
 import { Shop } from "./shop-location";
 import { Menu } from "./menu-location";
 
 export class DungeonLocationFactory {
   constructor(
-    private readonly gsm: GameStateManager,
   ) {}
 
   create(): Location[] {
