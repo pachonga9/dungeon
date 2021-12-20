@@ -1,6 +1,6 @@
 /// location interface
 
-export interface Location {
+export interface DungeonLocation {
   getInput(): void;
   describeLocation(): void;
 }

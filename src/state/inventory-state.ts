@@ -1,26 +1,4 @@
-interface inventoryState {
-  gold: number;
-  potions: {
-    potionOfHealth: {
-      name: string;
-      qty: number;
-    };
-    antidote: {
-      name: string;
-      qty: number;
-    };
-  };
-  weapons: {
-    rustyIronDagger: {
-      name: string;
-      baseAttack: number;
-      maxAttack: number;
-      qty: number;
-    };
-  };
-}
-
-export class Inventory implements inventoryState {
+export class Inventory {
   gold = 10;
   // the following properties are inaccessible and show up as undefined.
   potions: {

@@ -1,25 +1,29 @@
+import { DungeonLocation } from "../locations/dungeon-location";
+import { DungeonLocationFactory } from "../locations/dungeon-location-factory";
 import { GameState } from "./game-state";
 import { GameStateManager } from "./game-state-manager";
-import { GameStateType } from "./game-state-type";
 
 export class DungeonGameState implements GameState {
 
-  constructor(private readonly gsm: GameStateManager) {
+  private locations: DungeonLocation[];
+
+  constructor(
+    private readonly gsm: GameStateManager,
+    locationFactory = new DungeonLocationFactory(gsm)) {
+    this.locations = locationFactory.create();
   }
 
-  run(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        this.gsm.moveToState(GameStateType.menu);
-        resolve();
-      }, 1000);
-    });
+  run = async (): Promise<void> => {
+    console.log("dungeon: describe location, blah blah");
+    const answer = await this.getInput();
+    this.handleAnswer(answer);
+  };
+
+  getInput(): Promise<string> {
+    return Promise.resolve("meow");
   }
 
-  // getInput(): Promise<string> {
-  //   return Promise.resolve("");
-  // }
-  //
-  // handleAnswer(answer: string) {
-  // }
+  handleAnswer(answer: string) {
+    console.log(answer);
+  }
 }

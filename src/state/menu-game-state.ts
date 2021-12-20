@@ -14,4 +14,11 @@ export class MenuGameState implements GameState {
       }, 1000);
     });
   }
+
+  getInput(): Promise<string> {
+    return Promise.resolve("");
+  }
+
+  handleAnswer(answer: string) {
+  }
 }

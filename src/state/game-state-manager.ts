@@ -3,6 +3,7 @@ import { GameState } from "./game-state";
 import { GameStateType } from "./game-state-type";
 import { MenuGameState } from "./menu-game-state";
 import { PlayerState } from "./player-state";
+import { Runnable } from "./runnable";
 
 export class GameStateManager {
   public isDone = false;
@@ -19,7 +20,7 @@ export class GameStateManager {
     return this.playerState_;
   }
 
-  get currentGameState(): GameState {
+  get currentGameState(): Runnable {
     return this.states.get(this.currentGameStateKey);
   }
 
