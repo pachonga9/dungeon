@@ -1,15 +1,16 @@
-import { DungeonLocationFactory } from "../locations/dungeon-location-factory";
 import { GameState } from "./game-state";
+import { GameStateManager } from "./game-state-manager";
+import { GameStateType } from "./game-state-type";
 
 export class DungeonGameState implements GameState {
 
-  constructor(private readonly locationFactory = new DungeonLocationFactory()) {
+  constructor(private readonly gsm: GameStateManager) {
   }
 
   run(): Promise<void> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        console.log("dungeon");
+        this.gsm.moveToState(GameStateType.menu);
         resolve();
       }, 1000);
     });
