@@ -17,7 +17,6 @@ export class DungeonExperimental {
     }
   }
   async runRoom(): Promise<void> {
-    // let i = this.gsm.gs.currentLocation;
     let i = this.psm.player.currentRoom;
     console.log(`MAIN: I see that the room you are in is in fact: ${i}.`);
     let roomToRun = this.gsm.gs.locations[i];
