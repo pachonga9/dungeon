@@ -1,6 +1,7 @@
 import { stdin, stdout } from "process";
 import * as readline from "readline";
 import { GameStateManager } from "../state/game-state-manager";
+import { GameStateType } from "../state/game-state-type";
 import { DungeonLocation } from "./dungeon-location";
 
 export class Outside implements DungeonLocation {
@@ -14,8 +15,6 @@ export class Outside implements DungeonLocation {
   }
 
   getInput(): Promise<string> {
-    console.log("OL: Getting Input...");
-    this.describeLocation();
     console.log(`1. Enter the Dungeon.`);
     console.log(`2. Check Shop.`);
     console.log(`3. Menu.`);
@@ -45,8 +44,7 @@ export class Outside implements DungeonLocation {
         this.checkShop();
         break;
       case "3":
-        this.gsm.playerState.lastRoom = this.gsm.playerState.currentRoom;
-        this.gsm.playerState.currentRoom = 9;
+        this.gsm.moveToState(GameStateType.menu);
 
       // this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
       // this.gsm.gs.currentLocation = 9;
@@ -60,7 +58,7 @@ export class Outside implements DungeonLocation {
 
   private goForward(): void {
     console.log("OL: Moving forward into the dungeon unabaited...");
-    this.gsm.playerState.currentRoom++;
+    this.gsm.playerState.currentRoomIndex++;
     // this.gsm.gs.currentLocation++;
   }
 
@@ -69,7 +67,7 @@ export class Outside implements DungeonLocation {
       "An old shack serves as a last stop for the intrepid and stupid dungeoneers alike."
     );
     console.log("You head up to the door to the shop.");
-    this.gsm.playerState.currentRoom = 8;
+    this.gsm.playerState.currentRoomIndex = 8;
     // this.gsm.gs.currentLocation = 8;
   }
 }

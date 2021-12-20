@@ -1,6 +1,7 @@
 import { stdin, stdout } from "process";
 import * as readline from "readline";
 import { GameStateManager } from "../state/game-state-manager";
+import { GameStateType } from "../state/game-state-type";
 import { DungeonLocation } from "./dungeon-location";
 
 export class BossRoom implements DungeonLocation {
@@ -19,7 +20,6 @@ export class BossRoom implements DungeonLocation {
   }
 
   getInput(): Promise<string> {
-    this.describeLocation();
     console.log(`1. Move Forward.`);
     console.log(`2. Fight Boss.`);
     console.log(`3. Flee`);
@@ -37,7 +37,7 @@ export class BossRoom implements DungeonLocation {
 
   describeLocation(): void {
     // console.log(`You are in dungeon room ${this.gsm.gs.currentLocation}.`);
-    console.log(`You are in dungeon room ${this.gsm.playerState.currentRoom}.`);
+    console.log(`You are in dungeon room ${this.gsm.playerState.currentRoomIndex}.`);
 
     if (this.bossAlive) {
       console.log(`A HUGE boss monster blocks your path.`);
@@ -80,8 +80,7 @@ export class BossRoom implements DungeonLocation {
         this.flee();
         break;
       case "4":
-        this.gsm.playerState.lastRoom = this.gsm.playerState.currentRoom;
-        this.gsm.playerState.currentRoom = 9;
+        this.gsm.moveToState(GameStateType.menu);
 
       // this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
       // this.gsm.gs.currentLocation = 9;
@@ -104,7 +103,7 @@ export class BossRoom implements DungeonLocation {
         "With the monstrous creature dead, you have to squeeze past his stinking form and move into the next room."
       );
       // this.gsm.gs.currentLocation++;
-      this.gsm.playerState.currentRoom++;
+      this.gsm.playerState.currentRoomIndex++;
       if (this.roomComplete === false) {
         this.roomComplete = true;
         this.gsm.playerState.farthestRoom++;
@@ -189,6 +188,6 @@ export class BossRoom implements DungeonLocation {
   private flee(): void {
     console.log("BRL: You turn and run towards the exit like a coward.");
     // this.gsm.gs.currentLocation = 0;
-    this.gsm.playerState.currentRoom = 0;
+    this.gsm.playerState.currentRoomIndex = 0;
   }
 }

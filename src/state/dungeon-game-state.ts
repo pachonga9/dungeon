@@ -5,7 +5,7 @@ import { GameStateManager } from "./game-state-manager";
 
 export class DungeonGameState implements GameState {
 
-  private locations: DungeonLocation[];
+  private readonly locations: DungeonLocation[];
 
   constructor(
     private readonly gsm: GameStateManager,
@@ -14,16 +14,11 @@ export class DungeonGameState implements GameState {
   }
 
   run = async (): Promise<void> => {
-    console.log("dungeon: describe location, blah blah");
-    const answer = await this.getInput();
-    this.handleAnswer(answer);
+    let currentRoomIndex = this.gsm.playerState.currentRoomIndex;
+    console.log(`MAIN: I see that the room you are in is in fact: ${currentRoomIndex}.`);
+    let roomToRun = this.locations[currentRoomIndex];
+    roomToRun.describeLocation();
+    const answer = await roomToRun.getInput();
+    roomToRun.handleAnswer(answer);
   };
-
-  getInput(): Promise<string> {
-    return Promise.resolve("meow");
-  }
-
-  handleAnswer(answer: string) {
-    console.log(answer);
-  }
 }

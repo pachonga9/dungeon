@@ -6,19 +6,11 @@ export class MenuGameState implements GameState {
   constructor(private readonly gsm: GameStateManager) {
   }
 
-  run(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        this.gsm.moveToState(GameStateType.dungeon);
-        resolve();
-      }, 1000);
-    });
-  }
+  run = async (): Promise<void> => {
+    console.log('opened menu');
+    console.log('pretend you plqyed around and now want to resume');
+    console.log('user presses 1 to resume.');
+    this.gsm.moveToState(GameStateType.dungeon);
+  };
 
-  getInput(): Promise<string> {
-    return Promise.resolve("");
-  }
-
-  handleAnswer(answer: string) {
-  }
 }
