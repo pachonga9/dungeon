@@ -5,14 +5,13 @@ import { MenuGameState } from "./menu-game-state";
 import { PlayerState } from "./player-state";
 
 export class GameStateManager {
-  public isDone = false;
+  public isNotDone = false;
   public states = new Map<GameStateType, GameState>();
   private currentGameStateKey: GameStateType;
 
   constructor(private readonly playerState_ = new PlayerState()) {
-    this.states.set(GameStateType.dungeon, new DungeonGameState(this));
-    this.states.set(GameStateType.menu, new MenuGameState(this));
-    this.moveToState(GameStateType.menu);
+    this.states.set(GameStateType.dungeon, new DungeonGameState());
+    this.moveToState(GameStateType.dungeon);
   }
 
   get playerState(): PlayerState {

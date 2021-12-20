@@ -6,7 +6,7 @@ export class Game {
   async start(): Promise<void> {
     console.log("MAIN: Ignition. Let's do this. Starting stuff.");
     console.log(`MAIN: Dungeon Location Factory, pickup the phone...`);
-    while (this.gsm.isDone === false) {
+    while (this.gsm.isNotDone) {
       const currentGameState = this.gsm.currentGameState;
       await currentGameState.run();
     }
