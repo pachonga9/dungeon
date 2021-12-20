@@ -33,7 +33,7 @@ export class Outside implements Location {
 
   describeLocation(): void {
     console.log(
-      `OL: You are outside of the dungeon. You have ${this.psm.player.lifeTotal} health. You have ${this.gsm.gs.inventory.gold} gold. The furthest room you have cleared is room ${this.psm.player.farthestRoom}.`
+      `OL: You are outside of the dungeon. You have ${this.psm.player.lifeTotal} health. You have ${this.gsm.dungeonGameState.inventory.gold} gold. The furthest room you have cleared is room ${this.psm.player.farthestRoom}.`
     );
   }
 

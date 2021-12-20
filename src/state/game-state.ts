@@ -1,10 +1,12 @@
 import { Inventory } from "./inventory-state";
-import { Location } from "../locations/location";
 
-interface GameState {
-  locations: Location[];
-  inventory: Inventory;
-  notDone: boolean;
+export interface GameState {
+  getInput: () => Promise<string>;
+
+  handleAnswer(answer: string);
+}
+
+export class MenuGameState implements GameState {
 }
 
 export class DungeonGameState implements GameState {

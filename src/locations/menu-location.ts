@@ -54,7 +54,7 @@ export class Menu implements Location {
         break;
       case "3":
         console.log(`Okay, goodbye.`);
-        this.gsm.gs.notDone = false;
+        this.gsm.dungeonGameState.notDone = false;
         process.exit();
       default:
         return;
