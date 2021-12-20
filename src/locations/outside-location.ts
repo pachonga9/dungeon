@@ -1,22 +1,19 @@
-import { Location } from "./location";
-import { GameStateManager } from "../state/game-state-manager";
-import { PlayerStateManager } from "../state/player-state-manager";
 import { stdin, stdout } from "process";
 import * as readline from "readline";
+import { GameStateManager } from "../state/game-state-manager";
+import { GameStateType } from "../state/game-state-type";
+import { DungeonLocation } from "./dungeon-location";
 
-export class Outside implements Location {
+export class Outside implements DungeonLocation {
   constructor(
+    private readonly gsm = new GameStateManager(),
     private readonly rl = readline.createInterface({
       input: stdin,
       output: stdout,
-    }),
-    private readonly gsm = new GameStateManager(),
-    private readonly psm = new PlayerStateManager()
+    })
   ) {}
 
   getInput(): Promise<string> {
-    console.log("OL: Getting Input...");
-    this.describeLocation();
     console.log(`1. Enter the Dungeon.`);
     console.log(`2. Check Shop.`);
     console.log(`3. Menu.`);
@@ -33,23 +30,8 @@ export class Outside implements Location {
 
   describeLocation(): void {
     console.log(
-      `OL: You are outside of the dungeon. You have ${this.psm.player.lifeTotal} health. You have ${this.gsm.gs.inventory.gold} gold. The furthest room you have cleared is room ${this.psm.player.farthestRoom}.`
+      `OL: You are outside of the dungeon. You have ${this.gsm.playerState.lifeTotal} health. You have ${this.gsm.playerState.inventory.gold} gold. The furthest room you have cleared is room ${this.gsm.playerState.farthestRoom}.`
     );
-  }
-
-  private goForward(): void {
-    console.log("OL: Moving forward into the dungeon unabaited...");
-    this.psm.player.currentRoom++;
-    // this.gsm.gs.currentLocation++;
-  }
-
-  private checkShop(): void {
-    console.log(
-      "An old shack serves as a last stop for the intrepid and stupid dungeoneers alike."
-    );
-    console.log("You head up to the door to the shop.");
-    this.psm.player.currentRoom = 8;
-    // this.gsm.gs.currentLocation = 8;
   }
 
   handleAnswer(answer: string): void {
@@ -61,8 +43,7 @@ export class Outside implements Location {
         this.checkShop();
         break;
       case "3":
-        this.psm.player.lastRoom = this.psm.player.currentRoom;
-        this.psm.player.currentRoom = 9;
+        this.gsm.moveToState(GameStateType.menu);
 
       // this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
       // this.gsm.gs.currentLocation = 9;
@@ -72,5 +53,20 @@ export class Outside implements Location {
       default:
         return;
     }
+  }
+
+  private goForward(): void {
+    console.log("OL: Moving forward into the dungeon unabaited...");
+    this.gsm.playerState.currentRoomIndex++;
+    // this.gsm.gs.currentLocation++;
+  }
+
+  private checkShop(): void {
+    console.log(
+      "An old shack serves as a last stop for the intrepid and stupid dungeoneers alike."
+    );
+    console.log("You head up to the door to the shop.");
+    this.gsm.playerState.currentRoomIndex = 8;
+    // this.gsm.gs.currentLocation = 8;
   }
 }

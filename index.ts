@@ -1,5 +1,5 @@
-import { DungeonExperimental } from "./src/game";
-const dungeonExperimental = new DungeonExperimental();
+import { Game } from "./src/game";
+const game = new Game();
 (async () => {
-  await dungeonExperimental.start();
+  await game.start();
 })();

@@ -1,5 +1,32 @@
-import { DungeonGameState } from "./game-state";
+import { DungeonGameState } from "./dungeon-game-state";
+import { GameState } from "./game-state";
+import { GameStateType } from "./game-state-type";
+import { MenuGameState } from "./menu-game-state";
+import { PlayerState } from "./player-state";
+import { Runnable } from "./runnable";
 
 export class GameStateManager {
-  constructor(public readonly gs = new DungeonGameState()) {}
+  public isDone = false;
+  public states = new Map<GameStateType, GameState>();
+  private currentGameStateKey: GameStateType;
+
+  constructor(private readonly playerState_ = new PlayerState()) {
+    this.states.set(GameStateType.dungeon, new DungeonGameState(this));
+    this.states.set(GameStateType.menu, new MenuGameState(this));
+    this.moveToState(GameStateType.menu);
+  }
+
+  get playerState(): PlayerState {
+    return this.playerState_;
+  }
+
+  get currentGameState(): Runnable {
+    return this.states.get(this.currentGameStateKey);
+  }
+
+  moveToState(stateType: GameStateType): void {
+    const message = `moving from: ${this.currentGameStateKey} state to ${stateType} state`;
+    console.log(message);
+    this.currentGameStateKey = stateType;
+  }
 }

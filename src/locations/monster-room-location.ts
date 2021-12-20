@@ -1,21 +1,24 @@
-import { Location } from "./location";
-import { GameStateManager } from "../state/game-state-manager";
-import { PlayerStateManager } from "../state/player-state-manager";
 import { stdin, stdout } from "process";
 import * as readline from "readline";
+import { GameStateManager } from "../state/game-state-manager";
+import { GameStateType } from "../state/game-state-type";
+import { DungeonLocation } from "./dungeon-location";
 
-export class MonsterRoom implements Location {
+export class MonsterRoom implements DungeonLocation {
+  //Monster stuff//
+  monsterAlive: boolean = true;
+  monsterLife: number = 10;
+  roomComplete: boolean = false;
+
   constructor(
+    private readonly gsm = new GameStateManager(),
     private readonly rl = readline.createInterface({
       input: stdin,
       output: stdout,
-    }),
-    private readonly gsm = new GameStateManager(),
-    private readonly psm = new PlayerStateManager()
+    })
   ) {}
 
   getInput(): Promise<string> {
-    this.describeLocation();
     console.log(`1. Move Forward.`);
     console.log(`2. Fight Monster.`);
     console.log(`3. Flee`);
@@ -31,14 +34,11 @@ export class MonsterRoom implements Location {
     });
   }
 
-  //Monster stuff//
-  monsterAlive: boolean = true;
-  monsterLife: number = 10;
-  roomComplete: boolean = false;
-
   describeLocation(): void {
     // console.log(`You are in dungeon room ${this.gsm.gs.currentLocation}.`);
-    console.log(`You are in dungeon room ${this.psm.player.currentRoom}.`);
+    console.log(
+      `You are in dungeon room ${this.gsm.playerState.currentRoomIndex}.`
+    );
     if (this.monsterAlive) {
       console.log(`A monster blocks your path.`);
       if (this.monsterLife >= 10) {
@@ -56,14 +56,11 @@ export class MonsterRoom implements Location {
       console.log(`You can't move forward while a monster blocks your path.`);
     } else {
       console.log("With the monster dead, you move into the next room.");
-      // this.gsm.gs.currentLocation++;
-      this.psm.player.currentRoom++;
+      this.gsm.playerState.currentRoomIndex++;
       if (this.roomComplete === false) {
         this.roomComplete = true;
-        this.psm.player.farthestRoom++;
+        this.gsm.playerState.farthestRoom++;
       }
-      ///If youve been to the next room before, dont itterate farthest yet.
-      /// if you havent been to the next room before, this.gsm.gs.farthestRoom++
     }
   }
 
@@ -113,12 +110,12 @@ export class MonsterRoom implements Location {
     } else {
       console.log(`The monster strikes you for ${dmg} points of damage!`);
     }
-    this.psm.player.lifeTotal = this.psm.player.lifeTotal - dmg;
+    this.gsm.playerState.lifeTotal = this.gsm.playerState.lifeTotal - dmg;
     this.checkPlayerLifeStatus();
   }
 
   private checkPlayerLifeStatus(): void {
-    let health = this.psm.player.lifeTotal;
+    let health = this.gsm.playerState.lifeTotal;
     console.log(`Player Health: ${health}`);
     if (health <= 15 && health > 0) {
       console.log(`You are severely wounded!`);
@@ -149,8 +146,7 @@ export class MonsterRoom implements Location {
 
   private flee(): void {
     console.log("MRL: You turn and run towards the exit like a coward.");
-    // this.gsm.gs.currentLocation = 0;
-    this.psm.player.currentRoom = 0;
+    this.gsm.playerState.currentRoomIndex = 0;
   }
 
   handleAnswer(answer: string): void {
@@ -165,15 +161,8 @@ export class MonsterRoom implements Location {
         this.flee();
         break;
       case "4":
-        this.psm.player.lastRoom = this.psm.player.currentRoom;
-        this.psm.player.currentRoom = 9;
-      // this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
-      // this.gsm.gs.currentLocation = 9;
-      // console.log(`Okay, goodbye.`);
-      // this.gsm.gs.notDone = false;
-      // process.exit();
+        this.gsm.moveToState(GameStateType.menu);
       default:
-        // this.getInput();
         return;
     }
   }

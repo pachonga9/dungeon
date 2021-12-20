@@ -1,20 +1,19 @@
-import { Location } from "./location";
-import { GameStateManager } from "../state/game-state-manager";
-import { PlayerStateManager } from "../state/player-state-manager";
 import { stdin, stdout } from "process";
 import * as readline from "readline";
+import { GameStateManager } from "../state/game-state-manager";
+import { GameStateType } from "../state/game-state-type";
+import { DungeonLocation } from "./dungeon-location";
 
-export class FinalRoom implements Location {
+export class FinalRoom implements DungeonLocation {
   constructor(
+    private readonly gsm = new GameStateManager(),
     private readonly rl = readline.createInterface({
       input: stdin,
       output: stdout,
-    }),
-    private readonly gsm = new GameStateManager(),
-    private readonly psm = new PlayerStateManager()
+    })
   ) {}
+
   getInput(): Promise<string> {
-    this.describeLocation();
     console.log(`1. Move Forward`);
     console.log(`2. Greet Tom`);
     console.log(`3. Flee`);
@@ -31,8 +30,9 @@ export class FinalRoom implements Location {
   }
 
   describeLocation(): void {
-    // console.log(`You are in dungeon room ${this.gsm.gs.currentLocation}.`);
-    console.log(`You are in dungeon room ${this.psm.player.currentRoom}.`);
+    console.log(
+      `You are in dungeon room ${this.gsm.playerState.currentRoomIndex}`
+    );
     console.log(
       `A man in a white T-shirt stands in front of you. His smile is charming, if not a bit unsettling.`
     );
@@ -55,8 +55,7 @@ export class FinalRoom implements Location {
     console.log(
       "FRL: This is weird. You turn and run towards the exit like a coward."
     );
-    // this.gsm.gs.currentLocation = 0;
-    this.psm.player.currentRoom = 0;
+    this.gsm.playerState.currentRoomIndex = 0;
   }
 
   handleAnswer(answer: string): void {
@@ -71,16 +70,8 @@ export class FinalRoom implements Location {
         this.flee();
         break;
       case "4":
-        this.psm.player.lastRoom = this.psm.player.currentRoom;
-        this.psm.player.currentRoom = 9;
-
-      // this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
-      // this.gsm.gs.currentLocation = 9;
-      // console.log(`Okay, goodbye.`);
-      // this.gsm.gs.notDone = false;
-      // process.exit();
+        this.gsm.moveToState(GameStateType.menu);
       default:
-        // this.getInput();
         return;
     }
   }

@@ -1,23 +1,21 @@
-import { Location } from "./location";
-import { GameStateManager } from "../state/game-state-manager";
-import { PlayerStateManager } from "../state/player-state-manager";
 import { stdin, stdout } from "process";
 import * as readline from "readline";
+import { GameStateManager } from "../state/game-state-manager";
+import { GameStateType } from "../state/game-state-type";
+import { DungeonLocation } from "./dungeon-location";
 
-export class Shop implements Location {
+export class Shop implements DungeonLocation {
   constructor(
+    private readonly gsm = new GameStateManager(),
     private readonly rl = readline.createInterface({
       input: stdin,
       output: stdout,
-    }),
-    private readonly gsm = new GameStateManager(),
-    private readonly psm = new PlayerStateManager()
+    })
   ) {}
 
   newInstance: boolean = true;
 
   getInput(): Promise<string> {
-    this.describeLocation();
     console.log(`1. Peruse Wares.`);
     console.log(`2. Leave the Shop`);
     console.log(`3. Menu`);
@@ -61,8 +59,7 @@ export class Shop implements Location {
     console.log(
       "SHOP: You leave the shop. The shopkeeper grumbles some more..."
     );
-    this.psm.player.currentRoom = 0;
-    // this.gsm.gs.currentLocation = 0;
+    this.gsm.playerState.currentRoomIndex = 0;
   }
 
   handleAnswer(answer: string): void {
@@ -74,16 +71,8 @@ export class Shop implements Location {
         this.leaveShop();
         break;
       case "3":
-        this.psm.player.lastRoom = this.psm.player.currentRoom;
-        this.psm.player.currentRoom = 9;
-
-      // this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
-      // this.gsm.gs.currentLocation = 9;
-      // console.log(`Okay, goodbye.`);
-      // this.gsm.gs.notDone = false;
-      // process.exit();
+        this.gsm.moveToState(GameStateType.menu);
       default:
-        // this.getInput();
         return;
     }
   }

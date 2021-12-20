@@ -1,13 +1,9 @@
-interface PlayerState {
-  lifeTotal: number;
-  currentRoom: number;
-  farthestRoom: number;
-  lastRoom: number;
-}
+import { Inventory } from "./inventory-state";
 
-export class Player implements PlayerState {
+export class PlayerState {
   lifeTotal = 100;
-  currentRoom = 0;
+  currentRoomIndex = 0;
   farthestRoom = 0;
   lastRoom = 0;
+  inventory = new Inventory();
 }

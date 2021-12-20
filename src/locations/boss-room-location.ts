@@ -1,21 +1,24 @@
-import { Location } from "./location";
-import { GameStateManager } from "../state/game-state-manager";
-import { PlayerStateManager } from "../state/player-state-manager";
 import { stdin, stdout } from "process";
 import * as readline from "readline";
+import { GameStateManager } from "../state/game-state-manager";
+import { GameStateType } from "../state/game-state-type";
+import { DungeonLocation } from "./dungeon-location";
 
-export class BossRoom implements Location {
+export class BossRoom implements DungeonLocation {
+  //Monster stuff//
+  bossAlive: boolean = true;
+  bossLife: number = 25;
+  roomComplete: boolean = false;
+
   constructor(
+    private readonly gsm = new GameStateManager(),
     private readonly rl = readline.createInterface({
       input: stdin,
       output: stdout,
-    }),
-    private readonly gsm = new GameStateManager(),
-    private readonly psm = new PlayerStateManager()
+    })
   ) {}
 
   getInput(): Promise<string> {
-    this.describeLocation();
     console.log(`1. Move Forward.`);
     console.log(`2. Fight Boss.`);
     console.log(`3. Flee`);
@@ -31,14 +34,11 @@ export class BossRoom implements Location {
     });
   }
 
-  //Monster stuff//
-  bossAlive: boolean = true;
-  bossLife: number = 25;
-  roomComplete: boolean = false;
-
   describeLocation(): void {
     // console.log(`You are in dungeon room ${this.gsm.gs.currentLocation}.`);
-    console.log(`You are in dungeon room ${this.psm.player.currentRoom}.`);
+    console.log(
+      `You are in dungeon room ${this.gsm.playerState.currentRoomIndex}.`
+    );
 
     if (this.bossAlive) {
       console.log(`A HUGE boss monster blocks your path.`);
@@ -54,6 +54,39 @@ export class BossRoom implements Location {
     }
   }
 
+  rollPlayerAttackDamage(): void {
+    let dmg: number = this.getRandomInt();
+    if (dmg === 0) {
+      console.log("Your sword missed the boss entirely!");
+    } else if (dmg === 10) {
+      console.log(
+        `CRITICAL HIT! The boss takes ${dmg} points of damage! Will it be enough?`
+      );
+    } else {
+      console.log(`Your sword connects for ${dmg} points of damage!`);
+    }
+    this.bossLife = this.bossLife - dmg;
+    this.checkBossLifeStatus();
+  }
+
+  handleAnswer(answer: string): void {
+    switch (answer) {
+      case "1":
+        this.goForward();
+        break;
+      case "2":
+        this.fightBoss();
+        break;
+      case "3":
+        this.flee();
+        break;
+      case "4":
+        this.gsm.moveToState(GameStateType.menu);
+      default:
+        return;
+    }
+  }
+
   private goForward(): void {
     if (this.bossAlive) {
       console.log(
@@ -64,10 +97,10 @@ export class BossRoom implements Location {
         "With the monstrous creature dead, you have to squeeze past his stinking form and move into the next room."
       );
       // this.gsm.gs.currentLocation++;
-      this.psm.player.currentRoom++;
+      this.gsm.playerState.currentRoomIndex++;
       if (this.roomComplete === false) {
         this.roomComplete = true;
-        this.psm.player.farthestRoom++;
+        this.gsm.playerState.farthestRoom++;
       }
       ///If youve been to the next room before, dont itterate farthest yet.
       /// if you havent been to the next room before, this.gsm.gs.farthestRoom++
@@ -85,21 +118,6 @@ export class BossRoom implements Location {
         `The boss is already dead. You wrestle with your inner demons.`
       );
     }
-  }
-
-  rollPlayerAttackDamage(): void {
-    let dmg: number = this.getRandomInt();
-    if (dmg === 0) {
-      console.log("Your sword missed the boss entirely!");
-    } else if (dmg === 10) {
-      console.log(
-        `CRITICAL HIT! The boss takes ${dmg} points of damage! Will it be enough?`
-      );
-    } else {
-      console.log(`Your sword connects for ${dmg} points of damage!`);
-    }
-    this.bossLife = this.bossLife - dmg;
-    this.checkBossLifeStatus();
   }
 
   private checkBossLifeStatus(): void {
@@ -125,13 +143,13 @@ export class BossRoom implements Location {
       console.log('"rrrrAAAH!!');
       console.log(`The boss strikes you for ${dmg} points of damage!`);
     }
-    this.psm.player.lifeTotal = this.psm.player.lifeTotal - dmg;
+    this.gsm.playerState.lifeTotal = this.gsm.playerState.lifeTotal - dmg;
     // this.gsm.gs.playerLifeTotal = this.gsm.gs.playerLifeTotal - dmg;
     this.checkPlayerLifeStatus();
   }
 
   private checkPlayerLifeStatus(): void {
-    let health = this.psm.player.lifeTotal;
+    let health = this.gsm.playerState.lifeTotal;
     // let health = this.gsm.gs.playerLifeTotal;
     console.log(`Player Health: ${health}`);
     if (health <= 15 && health > 0) {
@@ -163,33 +181,6 @@ export class BossRoom implements Location {
 
   private flee(): void {
     console.log("BRL: You turn and run towards the exit like a coward.");
-    // this.gsm.gs.currentLocation = 0;
-    this.psm.player.currentRoom = 0;
-  }
-
-  handleAnswer(answer: string): void {
-    switch (answer) {
-      case "1":
-        this.goForward();
-        break;
-      case "2":
-        this.fightBoss();
-        break;
-      case "3":
-        this.flee();
-        break;
-      case "4":
-        this.psm.player.lastRoom = this.psm.player.currentRoom;
-        this.psm.player.currentRoom = 9;
-
-      // this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
-      // this.gsm.gs.currentLocation = 9;
-      // console.log(`Okay, goodbye.`);
-      // this.gsm.gs.notDone = false;
-      // process.exit();
-      default:
-        // this.getInput();
-        return;
-    }
+    this.gsm.playerState.currentRoomIndex = 0;
   }
 }
