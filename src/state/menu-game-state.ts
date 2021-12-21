@@ -6,16 +6,23 @@ import { GameStateType } from "./game-state-type";
 
 export class MenuGameState implements GameState {
   constructor(
-    private readonly gsm: GameStateManager,
-    private readonly rl = readline.createInterface({
-      input: stdin,
-      output: stdout,
-    })
-  ) {}
-
+    private readonly gsm: GameStateManager // private readonly rl = readline.createInterface({ //   input: stdin, //   output: stdout,
+  ) // })
+  {}
+  rl = readline.createInterface({
+    input: stdin,
+    output: stdout,
+  });
   run = async (): Promise<void> => {
     console.log("Menu: Hi, This is the menu.");
+
+    // const rl = readline.createInterface({
+    //   input: stdin,
+    //   output: stdout,
+    // });
+
     const answer = await this.getInput();
+
     this.handleAnswer(answer);
 
     // console.log("opened menu");
