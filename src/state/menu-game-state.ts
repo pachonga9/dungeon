@@ -14,6 +14,7 @@ export class MenuGameState implements GameState {
   ) {}
 
   run = async (): Promise<void> => {
+    console.log("Menu: Hi, This is the menu.");
     const answer = await this.getInput();
     this.handleAnswer(answer);
 
