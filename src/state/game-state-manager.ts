@@ -18,7 +18,7 @@ export class GameStateManager {
 
   constructor(private readonly playerState_ = new PlayerState()) {
     this.states.set(GameStateType.dungeon, new DungeonGameState(this));
-    this.states.set(GameStateType.menu, new MenuGameState(this)); //// this `this` isn't assignable to type interface.
+    this.states.set(GameStateType.menu, new MenuGameState(this));
     this.moveToState(GameStateType.dungeon); /// switched this from menu to dungeon
     /// so that the game doesn't start in what is, at the moment, essentially a pause menu.
   }

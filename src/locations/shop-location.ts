@@ -1,22 +1,9 @@
-import { stdin, stdout } from "process";
-import * as readline from "readline";
 import { GameStateManager } from "../state/game-state-manager";
 import { GameStateType } from "../state/game-state-type";
 import { DungeonLocation } from "./dungeon-location";
 
 export class Shop implements DungeonLocation {
-  // constructor(
-  //   private readonly rl: readline.Interface,
-  //   private readonly gsm = new GameStateManager()
-  // ) {}
-
-  constructor(
-    private readonly gsm = new GameStateManager(),
-    private readonly rl = readline.createInterface({
-      input: stdin,
-      output: stdout,
-    })
-  ) {}
+  constructor(private readonly gsm: GameStateManager) {}
 
   newInstance: boolean = true;
 
@@ -25,7 +12,7 @@ export class Shop implements DungeonLocation {
     console.log(`2. Leave the Shop`);
     console.log(`3. Menu`);
     return new Promise((resolve, reject) => {
-      this.rl.question(
+      this.gsm.rl.question(
         "What would you like to do? ",
         (answer: string): void => {
           console.log(`You answered ${answer}`);

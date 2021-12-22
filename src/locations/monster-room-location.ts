@@ -10,26 +10,7 @@ export class MonsterRoom implements DungeonLocation {
   monsterLife: number = 10;
   roomComplete: boolean = false;
 
-  constructor(
-    private readonly gsm = new GameStateManager()
-  ) // private readonly rl = readline.createInterface({
-  //   input: stdin,
-  //   output: stdout,
-  // })
-  {}
-  // constructor(
-  //   private readonly rl: Interface,
-  //   private readonly gsm = new GameStateManager()
-  // ) {}
-
-  // constructor(
-  //   private readonly gsm: GameStateManager
-  // ) // private readonly gsm = new GameStateManager(),
-  // // private readonly rl = readline.createInterface({
-  // //   input: stdin,
-  // //   output: stdout, /// technically I think I shouldn't need this if I am using `this.gsm.rl.question` instead of `this.rl.question`.
-  // // })
-  // {}
+  constructor(private readonly gsm: GameStateManager) {}
 
   getInput(): Promise<string> {
     console.log(`1. Move Forward.`);

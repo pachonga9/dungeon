@@ -1,5 +1,3 @@
-import { stdin, stdout } from "process";
-import * as readline from "readline";
 import { GameStateManager } from "../state/game-state-manager";
 import { GameStateType } from "../state/game-state-type";
 import { DungeonLocation } from "./dungeon-location";
@@ -10,13 +8,7 @@ export class BossRoom implements DungeonLocation {
   bossLife: number = 25;
   roomComplete: boolean = false;
 
-  constructor(
-    private readonly gsm = new GameStateManager(),
-    private readonly rl = readline.createInterface({
-      input: stdin,
-      output: stdout,
-    })
-  ) {}
+  constructor(private readonly gsm: GameStateManager) {}
 
   getInput(): Promise<string> {
     console.log(`1. Move Forward.`);
@@ -24,7 +16,7 @@ export class BossRoom implements DungeonLocation {
     console.log(`3. Flee`);
     console.log(`4. Menu`);
     return new Promise((resolve, reject) => {
-      this.rl.question(
+      this.gsm.rl.question(
         "What would you like to do? ",
         (answer: string): void => {
           console.log(`You answered ${answer}`);
@@ -35,7 +27,6 @@ export class BossRoom implements DungeonLocation {
   }
 
   describeLocation(): void {
-    // console.log(`You are in dungeon room ${this.gsm.gs.currentLocation}.`);
     console.log(
       `You are in dungeon room ${this.gsm.playerState.currentRoomIndex}.`
     );
