@@ -1,5 +1,3 @@
-// import { stdin, stdout } from "process";
-// import * as readline from "readline";
 import { GameStateManager } from "../state/game-state-manager";
 import { GameStateType } from "../state/game-state-type";
 import { DungeonLocation } from "./dungeon-location";
