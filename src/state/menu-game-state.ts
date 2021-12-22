@@ -1,25 +1,27 @@
-import { stdin, stdout } from "process";
-import * as readline from "readline";
+// import * as readline from "readline";
+// import { stdin, stdout } from "process";
+import { Interface } from "readline";
 import { GameState } from "./game-state";
 import { GameStateManager } from "./game-state-manager";
 import { GameStateType } from "./game-state-type";
 
 export class MenuGameState implements GameState {
+  // constructor(
+  //   private readonly rl: Interface, gsm: GameStateManager
+  // ) {} /// using this constructor breaks the manager
+  //////////////////////////////////////////////////////////
   constructor(
-    private readonly gsm: GameStateManager // private readonly rl = readline.createInterface({ //   input: stdin, //   output: stdout,
-  ) // })
-  {}
-  rl = readline.createInterface({
-    input: stdin,
-    output: stdout,
-  });
+    private readonly rl: Interface,
+    private readonly gsm = new GameStateManager()
+  ) {}
+  //////////////////////////////////////////////////////////
+  // rl = readline.createInterface({
+  //   input: stdin,
+  //   output: stdout,
+  // });
+  /////////////////////////////////////////////////////////
   run = async (): Promise<void> => {
     console.log("Menu: Hi, This is the menu.");
-
-    // const rl = readline.createInterface({
-    //   input: stdin,
-    //   output: stdout,
-    // });
 
     const answer = await this.getInput();
 

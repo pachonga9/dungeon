@@ -5,6 +5,11 @@ import { GameStateType } from "../state/game-state-type";
 import { DungeonLocation } from "./dungeon-location";
 
 export class Outside implements DungeonLocation {
+  // constructor(
+  //   private readonly rl: readline.Interface,
+  //   private readonly gsm = new GameStateManager()
+  // ) {}
+
   constructor(
     private readonly gsm = new GameStateManager(),
     private readonly rl = readline.createInterface({

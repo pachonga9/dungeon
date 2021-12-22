@@ -1,5 +1,5 @@
-import { stdin, stdout } from "process";
-import * as readline from "readline";
+// import { stdin, stdout } from "process";
+// import * as readline from "readline";
 import { GameStateManager } from "../state/game-state-manager";
 import { GameStateType } from "../state/game-state-type";
 import { DungeonLocation } from "./dungeon-location";
@@ -11,12 +11,25 @@ export class MonsterRoom implements DungeonLocation {
   roomComplete: boolean = false;
 
   constructor(
-    private readonly gsm = new GameStateManager(),
-    private readonly rl = readline.createInterface({
-      input: stdin,
-      output: stdout,
-    })
-  ) {}
+    private readonly gsm = new GameStateManager()
+  ) // private readonly rl = readline.createInterface({
+  //   input: stdin,
+  //   output: stdout,
+  // })
+  {}
+  // constructor(
+  //   private readonly rl: Interface,
+  //   private readonly gsm = new GameStateManager()
+  // ) {}
+
+  // constructor(
+  //   private readonly gsm: GameStateManager
+  // ) // private readonly gsm = new GameStateManager(),
+  // // private readonly rl = readline.createInterface({
+  // //   input: stdin,
+  // //   output: stdout, /// technically I think I shouldn't need this if I am using `this.gsm.rl.question` instead of `this.rl.question`.
+  // // })
+  // {}
 
   getInput(): Promise<string> {
     console.log(`1. Move Forward.`);
@@ -24,7 +37,7 @@ export class MonsterRoom implements DungeonLocation {
     console.log(`3. Flee`);
     console.log(`4. Menu`);
     return new Promise((resolve, reject) => {
-      this.rl.question(
+      this.gsm.rl.question(
         "What would you like to do? ",
         (answer: string): void => {
           console.log(`You answered ${answer}`);
