@@ -1,20 +1,29 @@
 import { GameState } from "./game-state";
 import { GameStateManager } from "./game-state-manager";
 import { GameStateType } from "./game-state-type";
-
-// interface potionsInterface {
-//   potions: string[]
-// }
+import { Storable } from "./storable";
+import { Consumable } from "./consumable";
 
 export class InventoryGameState implements GameState {
   constructor(private readonly gsm: GameStateManager) {}
 
-  gold: number = 10;
-  // potions: string[] = ['Potiion of minor healing' [1], 'Potion of healing' [1]];
+  gold: Storable = {
+    name: "gold coins",
+    qty: 10,
+  };
 
-  // potionSatchel: potionsInterface = {
-  //   potions: [`potion of health`]
-  // }
+  // minPotOfHealth: Consumable = {
+  //   name: "Minor Potion of Healing",
+  //   qty: 1,
+  //   use = () =>{
+
+  //   }
+  // };
+
+  // majPotOfHealth: Storable = {
+  //   name: "Major Potion of Healing",
+  //   qty: 1,
+  // };
 
   run = async (): Promise<void> => {
     console.log("Inventory-state: Hi, This is the inventory.");
@@ -47,7 +56,8 @@ export class InventoryGameState implements GameState {
         break;
       case "2":
         console.clear();
-        console.log(`You have ${this.gold} gold.`);
+        console.log(`You have ${this.gold.qty} ${this.gold.name}.`);
+        console.log(this.gold);
         break;
       case "3":
         console.clear();
