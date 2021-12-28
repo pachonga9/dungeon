@@ -6,7 +6,7 @@ export class MenuGameState implements GameState {
   constructor(private readonly gsm: GameStateManager) {}
 
   run = async (): Promise<void> => {
-    console.log("Menu: Hi, This is the menu.");
+    console.log("MAIN MENU");
 
     const answer = await this.getInput();
 
@@ -15,7 +15,8 @@ export class MenuGameState implements GameState {
 
   getInput(): Promise<string> {
     console.log(`1. Resume`);
-    console.log(`2. Exit`);
+    console.log(`2. Open Inventory`);
+    console.log(`3. Exit`);
     return new Promise((resolve, reject) => {
       this.gsm.rl.question(
         "What would you like to do? ",
@@ -30,9 +31,16 @@ export class MenuGameState implements GameState {
   handleAnswer(answer: string): void {
     switch (answer) {
       case "1":
+        console.clear();
         this.gsm.moveToState(GameStateType.dungeon);
         break;
       case "2":
+        console.clear();
+        this.gsm.moveToState(GameStateType.inventory);
+        break;
+      case "3":
+        console.clear();
+        console.log("GAME OVER.");
         this.gsm.isDone = true;
         break;
       default:

@@ -53,15 +53,19 @@ export class FinalRoom implements DungeonLocation {
   handleAnswer(answer: string): void {
     switch (answer) {
       case "1":
+        console.clear();
         this.goForward();
         break;
       case "2":
+        console.clear();
         this.greetTom();
         break;
       case "3":
+        console.clear();
         this.flee();
         break;
       case "4":
+        console.clear();
         this.gsm.moveToState(GameStateType.menu);
       default:
         return;

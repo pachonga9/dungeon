@@ -22,21 +22,23 @@ export class Outside implements DungeonLocation {
 
   describeLocation(): void {
     console.log(
-      `OL: You are outside of the dungeon. You have ${this.gsm.playerState.lifeTotal} health. You have ${this.gsm.playerState.inventory.gold} gold. The furthest room you have cleared is room ${this.gsm.playerState.farthestRoom}.`
+      `OL: You are outside of the dungeon. You have ${this.gsm.playerState.lifeTotal} health. The furthest room you have cleared is room ${this.gsm.playerState.farthestRoom}.`
     );
   }
 
   handleAnswer(answer: string): void {
     switch (answer) {
       case "1":
+        console.clear();
         this.goForward();
         break;
       case "2":
+        console.clear();
         this.checkShop();
         break;
       case "3":
+        console.clear();
         this.gsm.moveToState(GameStateType.menu);
-
       // this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
       // this.gsm.gs.currentLocation = 9;
       // console.log(`Okay, goodbye.`);

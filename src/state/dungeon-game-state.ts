@@ -15,9 +15,9 @@ export class DungeonGameState implements GameState {
 
   run = async (): Promise<void> => {
     let currentRoomIndex = this.gsm.playerState.currentRoomIndex;
-    console.log(
-      `MAIN: I see that the room you are in is in fact: ${currentRoomIndex}.`
-    );
+    // console.log(
+    //   `DGS: I see that the room you are in is in fact: ${currentRoomIndex}.`
+    // );
     let roomToRun = this.locations[currentRoomIndex];
     roomToRun.describeLocation();
     const answer = await roomToRun.getInput();

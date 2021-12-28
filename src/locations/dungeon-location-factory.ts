@@ -11,7 +11,7 @@ export class DungeonLocationFactory {
   constructor(private readonly gsm: GameStateManager) {}
 
   create(): DungeonLocation[] {
-    console.log(`DLC: Yeah, yeah...I got it. BUILDING ROOMS...STBY.`);
+    // console.log(`DLC: Yeah, yeah...I got it. BUILDING ROOMS...STBY.`);
     const locations: DungeonLocation[] = [];
     locations.push(new Outside(this.gsm));
     locations.push(new MonsterRoom(this.gsm));

@@ -57,12 +57,15 @@ export class Shop implements DungeonLocation {
   handleAnswer(answer: string): void {
     switch (answer) {
       case "1":
+        console.clear();
         this.peruseWares();
         break;
       case "2":
+        console.clear();
         this.leaveShop();
         break;
       case "3":
+        console.clear();
         this.gsm.moveToState(GameStateType.menu);
       default:
         return;
