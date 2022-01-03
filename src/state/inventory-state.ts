@@ -1,16 +1,11 @@
 import { GameState } from "./game-state";
 import { GameStateManager } from "./game-state-manager";
 import { GameStateType } from "./game-state-type";
-import { Storable } from "./storable";
-import { Consumable } from "./consumable";
 
 export class InventoryGameState implements GameState {
   constructor(private readonly gsm: GameStateManager) {}
 
-  gold: Storable = {
-    name: "gold coins",
-    qty: 10,
-  };
+  gold: number = 10;
 
   // minPotOfHealth: Consumable = {
   //   name: "Minor Potion of Healing",
@@ -56,8 +51,7 @@ export class InventoryGameState implements GameState {
         break;
       case "2":
         console.clear();
-        console.log(`You have ${this.gold.qty} ${this.gold.name}.`);
-        console.log(this.gold);
+        console.log(`You have ${this.gold} gold.`);
         break;
       case "3":
         console.clear();
