@@ -17,6 +17,12 @@ export class Inventory {
     this.bag.set(ItemType.MinorHealthPotion, [minorHealthPotion]);
   }
 
+  getFirst<T>(key: ItemType): T {
+    const raw = this.bag.get(key);
+    const storables = raw as unknown as T[];
+    return storables[0];
+  }
+
   getItems<T>(key: ItemType): T[] {
     const storables = this.bag.get(key);
     return storables as unknown as T[];

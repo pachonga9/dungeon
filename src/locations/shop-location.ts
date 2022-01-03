@@ -1,3 +1,4 @@
+import { CoinPurse } from "../items/coin-purse";
 import { ItemType } from "../items/item-type";
 import { MinorHealthPotion } from "../items/minor-health-potion";
 import { GameStateManager } from "../state/game-state-manager";
@@ -38,13 +39,21 @@ export class Shop implements DungeonLocation {
   }
 
   private peruseWares(): void {
+
+    const coinPurse = this.gsm.playerState.inventory.getFirst<CoinPurse>(ItemType.CoinPurse);
+    console.log('you currently have: ', coinPurse.describeCash());
+
     this.newInstance = false;
     console.log('the shop keeper says, hes do busy to deal with you and tosses you a potion');
     const potion = new MinorHealthPotion(this.gsm);
     this.gsm.playerState.inventory.addItem(ItemType.MinorHealthPotion, potion);
     const potions = this.gsm.playerState.inventory.getItems<MinorHealthPotion>(ItemType.MinorHealthPotion); //2 potions
+    console.log('potion count', potions.length);
     const asdf = potions[0]; // first of the two
     asdf.use();
+    console.log('potion servings', asdf.servings);
+
+
 
     // console.log(
     //   "This is the part where you would peruse the wares of the shop..."

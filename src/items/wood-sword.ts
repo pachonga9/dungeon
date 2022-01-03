@@ -3,7 +3,7 @@ import { Weapon } from "./weapon";
 
 export class WoodSword implements Weapon {
   id: string;
-  label: "Wood Sword";
+  label = "Wood Sword";
 
   constructor() {
     this.id = v4(); // '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'

@@ -4,8 +4,8 @@ import { Consumable } from "./consumable";
 
 export class MinorHealthPotion implements Consumable {
   id: string;
-  label: "Minor Health Potion";
-  servings: 2;
+  label = "Minor Health Potion";
+  servings = 2;
 
   constructor(private readonly gsm: GameStateManager) {
     this.id = v4();
