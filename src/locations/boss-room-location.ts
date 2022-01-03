@@ -1,25 +1,22 @@
-import { Location } from "../location";
-import { GameStateManager } from "../game-state-manager";
-import { stdin, stdout } from "process";
-import * as readline from "readline";
+import { GameStateManager } from "../state/game-state-manager";
+import { GameStateType } from "../state/game-state-type";
+import { DungeonLocation } from "./dungeon-location";
 
-export class BossRoom implements Location {
-  constructor(
-    private readonly rl = readline.createInterface({
-      input: stdin,
-      output: stdout,
-    }),
-    private readonly gsm = new GameStateManager()
-  ) {}
+export class BossRoom implements DungeonLocation {
+  //Monster stuff//
+  bossAlive: boolean = true;
+  bossLife: number = 25;
+  roomComplete: boolean = false;
+
+  constructor(private readonly gsm: GameStateManager) {}
 
   getInput(): Promise<string> {
-    this.describeLocation();
     console.log(`1. Move Forward.`);
     console.log(`2. Fight Boss.`);
     console.log(`3. Flee`);
     console.log(`4. Menu`);
     return new Promise((resolve, reject) => {
-      this.rl.question(
+      this.gsm.rl.question(
         "What would you like to do? ",
         (answer: string): void => {
           console.log(`You answered ${answer}`);
@@ -29,12 +26,11 @@ export class BossRoom implements Location {
     });
   }
 
-  //Monster stuff//
-  bossAlive: boolean = true;
-  bossLife: number = 25;
-
   describeLocation(): void {
-    console.log(`You are in dungeon room ${this.gsm.gs.currentLocation}.`);
+    console.log(
+      `You are in dungeon room ${this.gsm.playerState.currentRoomIndex}.`
+    );
+
     if (this.bossAlive) {
       console.log(`A HUGE boss monster blocks your path.`);
       if (this.bossLife >= 25) {
@@ -46,34 +42,6 @@ export class BossRoom implements Location {
       }
     } else {
       console.log("The boss monster lays dead on the floor.");
-    }
-  }
-
-  private goForward(): void {
-    if (this.bossAlive) {
-      console.log(
-        `The huge boss steps in front of you no matter how you try, you can't move forward while the boss still lives.`
-      );
-    } else {
-      console.log(
-        "With the monstrous creature dead, you have to squeeze past his stinking form and move into the next room."
-      );
-      this.gsm.gs.currentLocation++;
-      ///If youve been to the next room before, dont itterate farthest yet.
-      /// if you havent been to the next room before, this.gsm.gs.farthestRoom++
-    }
-  }
-
-  private fightBoss(): void {
-    if (this.bossAlive) {
-      // console.clear();
-      console.log(`You swing your sword at the gigantic creature.`);
-      this.rollPlayerAttackDamage();
-    } else {
-      // console.clear();
-      console.log(
-        `The boss is already dead. You wrestle with your inner demons.`
-      );
     }
   }
 
@@ -90,6 +58,61 @@ export class BossRoom implements Location {
     }
     this.bossLife = this.bossLife - dmg;
     this.checkBossLifeStatus();
+  }
+
+  handleAnswer(answer: string): void {
+    switch (answer) {
+      case "1":
+        console.clear();
+        this.goForward();
+        break;
+      case "2":
+        console.clear();
+        this.fightBoss();
+        break;
+      case "3":
+        console.clear();
+        this.flee();
+        break;
+      case "4":
+        console.clear();
+        this.gsm.moveToState(GameStateType.menu);
+      default:
+        return;
+    }
+  }
+
+  private goForward(): void {
+    if (this.bossAlive) {
+      console.log(
+        `The huge boss steps in front of you no matter how you try, you can't move forward while the boss still lives.`
+      );
+    } else {
+      console.log(
+        "With the monstrous creature dead, you have to squeeze past his stinking form and move into the next room."
+      );
+      // this.gsm.gs.currentLocation++;
+      this.gsm.playerState.currentRoomIndex++;
+      if (this.roomComplete === false) {
+        this.roomComplete = true;
+        this.gsm.playerState.farthestRoom++;
+      }
+      ///If youve been to the next room before, dont itterate farthest yet.
+      /// if you havent been to the next room before, this.gsm.gs.farthestRoom++
+    }
+  }
+
+  private fightBoss(): void {
+    if (this.bossAlive) {
+      // console.clear();
+      console.log(`You swing your sword at the gigantic creature.`);
+      this.rollPlayerAttackDamage();
+    } else {
+      // console.clear();
+      console.log(
+        `The boss is already dead. You wrestle with your inner demons.`
+      );
+    }
   }
 
   private checkBossLifeStatus(): void {
@@ -115,12 +138,14 @@ export class BossRoom implements Location {
       console.log('"rrrrAAAH!!');
       console.log(`The boss strikes you for ${dmg} points of damage!`);
     }
-    this.gsm.gs.playerLifeTotal = this.gsm.gs.playerLifeTotal - dmg;
+    this.gsm.playerState.lifeTotal = this.gsm.playerState.lifeTotal - dmg;
+    // this.gsm.gs.playerLifeTotal = this.gsm.gs.playerLifeTotal - dmg;
     this.checkPlayerLifeStatus();
   }
 
   private checkPlayerLifeStatus(): void {
-    let health = this.gsm.gs.playerLifeTotal;
+    let health = this.gsm.playerState.lifeTotal;
+    // let health = this.gsm.gs.playerLifeTotal;
     console.log(`Player Health: ${health}`);
     if (health <= 15 && health > 0) {
       console.log(`You are severely wounded!`);
@@ -151,29 +176,6 @@ export class BossRoom implements Location {
 
   private flee(): void {
     console.log("BRL: You turn and run towards the exit like a coward.");
-    this.gsm.gs.currentLocation = 0;
-  }
-
-  handleAnswer(answer: string): void {
-    switch (answer) {
-      case "1":
-        this.goForward();
-        break;
-      case "2":
-        this.fightBoss();
-        break;
-      case "3":
-        this.flee();
-        break;
-      case "4":
-        this.gsm.gs.lastLocation = this.gsm.gs.currentLocation;
-        this.gsm.gs.currentLocation = 9;
-      // console.log(`Okay, goodbye.`);
-      // this.gsm.gs.notDone = false;
-      // process.exit();
-      default:
-        // this.getInput();
-        return;
-    }
+    this.gsm.playerState.currentRoomIndex = 0;
   }
 }

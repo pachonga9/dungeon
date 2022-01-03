@@ -1,6 +1,6 @@
-import { DungeonExperimental } from "./main";
-const dungeonExperimental = new DungeonExperimental();
+import { Game } from "./src/game";
+const game = new Game();
 (async () => {
-  await dungeonExperimental.start();
+  await game.start();
+  process.exit();
 })();
-
