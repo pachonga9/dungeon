@@ -10,14 +10,16 @@ import { Runnable } from "./runnable";
 
 export class GameStateManager {
   public isDone = false;
-  public states = new Map<GameStateType, GameState>();
-  private currentGameStateKey: GameStateType;
-  public rl = readline.createInterface({
+  public readonly states = new Map<GameStateType, GameState>();
+  public readonly rl = readline.createInterface({
     input: stdin,
-    output: stdout,
+    output: stdout
   });
+  private currentGameStateKey: GameStateType;
+  private readonly playerState_: PlayerState;
 
-  constructor(private readonly playerState_ = new PlayerState()) {
+  constructor() {
+    this.playerState_ = new PlayerState(this); //todo: inject this somehow
     this.states.set(GameStateType.dungeon, new DungeonGameState(this));
     this.states.set(GameStateType.menu, new MenuGameState(this));
     this.states.set(GameStateType.inventory, new InventoryGameState(this));

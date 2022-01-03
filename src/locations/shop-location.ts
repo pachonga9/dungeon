@@ -1,3 +1,5 @@
+import { ItemType } from "../items/item-type";
+import { MinorHealthPotion } from "../items/minor-health-potion";
 import { GameStateManager } from "../state/game-state-manager";
 import { GameStateType } from "../state/game-state-type";
 import { DungeonLocation } from "./dungeon-location";
@@ -37,13 +39,20 @@ export class Shop implements DungeonLocation {
 
   private peruseWares(): void {
     this.newInstance = false;
-    console.log(
-      "This is the part where you would peruse the wares of the shop..."
-    );
-    console.log(
-      'The shopkeeper mumbles something about a "dev god not up to par with other gods" and "idiot devs not giving me s-- to hrmmm sell."'
-    );
-    console.log(`It may be best to come back later, you think.`);
+    console.log('the shop keeper says, hes do busy to deal with you and tosses you a potion');
+    const potion = new MinorHealthPotion(this.gsm);
+    this.gsm.playerState.inventory.addItem(ItemType.MinorHealthPotion, potion);
+    const potions = this.gsm.playerState.inventory.getItems<MinorHealthPotion>(ItemType.MinorHealthPotion); //2 potions
+    const asdf = potions[0]; // first of the two
+    asdf.use();
+
+    // console.log(
+    //   "This is the part where you would peruse the wares of the shop..."
+    // );
+    // console.log(
+    //   'The shopkeeper mumbles something about a "dev god not up to par with other gods" and "idiot devs not giving me s-- to hrmmm sell."'
+    // );
+    // console.log(`It may be best to come back later, you think.`);
   }
 
   private leaveShop(): void {
