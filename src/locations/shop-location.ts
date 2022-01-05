@@ -1,6 +1,8 @@
 import { CoinPurse } from "../items/coin-purse";
 import { ItemType } from "../items/item-type";
 import { MinorHealthPotion } from "../items/minor-health-potion";
+import { WoodSword } from "../items/wood-sword";
+import { IronSword } from "../items/iron-sword";
 import { GameStateManager } from "../state/game-state-manager";
 import { GameStateType } from "../state/game-state-type";
 import { DungeonLocation } from "./dungeon-location";
@@ -39,21 +41,35 @@ export class Shop implements DungeonLocation {
   }
 
   private peruseWares(): void {
-
-    const coinPurse = this.gsm.playerState.inventory.getFirst<CoinPurse>(ItemType.CoinPurse);
-    console.log('you currently have: ', coinPurse.describeCash());
+    const coinPurse = this.gsm.playerState.inventory.getFirst<CoinPurse>(
+      ItemType.CoinPurse
+    );
+    console.log("you currently have: ", coinPurse.describeCash());
 
     this.newInstance = false;
-    console.log('the shop keeper says, hes do busy to deal with you and tosses you a potion');
+
+    console.log(
+      "the shop keeper says, hes too busy to deal with you and tosses you a potion"
+    );
     const potion = new MinorHealthPotion(this.gsm);
     this.gsm.playerState.inventory.addItem(ItemType.MinorHealthPotion, potion);
-    const potions = this.gsm.playerState.inventory.getItems<MinorHealthPotion>(ItemType.MinorHealthPotion); //2 potions
-    console.log('potion count', potions.length);
+    const potions = this.gsm.playerState.inventory.getItems<MinorHealthPotion>(
+      ItemType.MinorHealthPotion
+    ); //2 potions
+    console.log("potion count", potions.length);
     const asdf = potions[0]; // first of the two
     asdf.use();
-    console.log('potion servings', asdf.servings);
+    console.log("potion servings", asdf.servings);
 
-
+    console.log(
+      `I guess you're probably wanting a weapon too. Here. Take this old broken broom sti- uh - I mean wooden sword.`
+    );
+    const sword = new WoodSword(this.gsm);
+    this.gsm.playerState.inventory.addItem(ItemType.WoodSword, sword);
+    // const swords = this.gsm.playerState.inventory.getItems<WoodSword>(ItemType.WoodSword);
+    console.log("NEW WEAPON! You have been given a ", sword.label);
+    console.log('"Go ahead an put equip it."');
+    sword.equip();
 
     // console.log(
     //   "This is the part where you would peruse the wares of the shop..."

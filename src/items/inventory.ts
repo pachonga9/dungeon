@@ -1,5 +1,6 @@
 import { GameStateManager } from "../state/game-state-manager";
 import { CoinPurse } from "./coin-purse";
+import { IronSword } from "./iron-sword";
 import { ItemType } from "./item-type";
 import { MinorHealthPotion } from "./minor-health-potion";
 import { Storable } from "./storable";
@@ -9,9 +10,11 @@ export class Inventory {
   private readonly bag = new Map<ItemType, Storable[]>();
 
   constructor(private readonly gsm: GameStateManager) {
-    const woodSword = new WoodSword();
+    const ironSword = new IronSword(this.gsm);
+    const woodSword = new WoodSword(this.gsm);
     const coinPurse = new CoinPurse();
     const minorHealthPotion = new MinorHealthPotion(this.gsm);
+    this.bag.set(ItemType.IronSword, [ironSword]);
     this.bag.set(ItemType.WoodSword, [woodSword]);
     this.bag.set(ItemType.CoinPurse, [coinPurse]);
     this.bag.set(ItemType.MinorHealthPotion, [minorHealthPotion]);

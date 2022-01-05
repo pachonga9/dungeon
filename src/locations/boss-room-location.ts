@@ -46,7 +46,8 @@ export class BossRoom implements DungeonLocation {
   }
 
   rollPlayerAttackDamage(): void {
-    let dmg: number = this.getRandomInt();
+    // let dmg: number = this.getRandomInt();
+    let dmg: number = this.gsm.playerState.WeaponAttack;
     if (dmg === 0) {
       console.log("Your sword missed the boss entirely!");
     } else if (dmg === 10) {

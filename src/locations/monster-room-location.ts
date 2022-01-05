@@ -70,7 +70,8 @@ export class MonsterRoom implements DungeonLocation {
   }
 
   rollPlayerAttackDamage(): void {
-    let dmg: number = this.getRandomInt();
+    // let dmg: number = this.getRandomInt();
+    let dmg: number = this.gsm.playerState.WeaponAttack;
     if (dmg === 0) {
       console.log("Your sword missed the monster entirely!");
     } else if (dmg === 10) {

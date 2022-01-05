@@ -1,5 +1,6 @@
 export enum ItemType {
   MinorHealthPotion,
   WoodSword,
-  CoinPurse
+  CoinPurse,
+  IronSword,
 }
